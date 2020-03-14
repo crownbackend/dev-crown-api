@@ -9,8 +9,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /.idea
-/.env
-
+.env
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
