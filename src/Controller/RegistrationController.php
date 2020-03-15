@@ -94,6 +94,65 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * @Route("/forgot/password", name="send_new_password")
+     * @param Request $request
+     * @param Mailer $mailer
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function sendNewPassword(Request $request, Mailer $mailer, UserRepository $userRepository): JsonResponse
+    {
+        $user = $userRepository->findOneBy(['email' => $request->request->get('email')]);
+        if($user) {
+            $em = $this->getDoctrine()->getManager();
+            $user->setTokenPassword($this->generateToken());
+            $user->setTokenPasswordCreatedAt(new \DateTime());
+            $em->persist($user);
+            $em->flush();
+            $mailer->sendToken("Mot de passe oublié", $user->getEmail(), $user->getUsername(), $user->getTokenPassword());
+            return $this->json(['success' => 1]);
+        } else {
+            return $this->json(['error' => 1]);
+        }
+    }
+
+    /**
+     * @Route("/forgot/password/{token}", name="confirm_password", methods={"GET", "POST"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param string $token
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return JsonResponse
+     */
+    public function confirmPassword(UserRepository $userRepository, Request $request,
+                                    string $token, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $userRepository->findOneBy(['tokenPassword' => $token]);
+        if($user) {
+            $res = preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/', $request->request->get('password'));
+            if($res == 1) {
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $request->request->get('password')
+                    )
+                );
+            } else {
+                return $this->json(['errorPassword' => 0], 400);
+            }
+            $user->setTokenPassword(null);
+            $user->setTokenPasswordCreatedAt(null);
+            $em->persist($user);
+            $em->flush();
+            return $this->json(['success' => 1]);
+        } else {
+            return $this->json(['error' => 0]);
+        }
+    }
+
+    /**
      * @Route("/verify/username/{username}", name="verify_username", methods={"GET"})
      * @param string $username
      * @param UserRepository $userRepository
