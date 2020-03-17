@@ -27,7 +27,7 @@ class Video
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $videoURL;
 
@@ -42,14 +42,24 @@ class Video
     private $publishedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $video;
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private $nameFileVideo;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -116,18 +126,6 @@ class Video
         return $this;
     }
 
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
-    public function setVideo(?string $video): self
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -136,6 +134,30 @@ class Video
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getNameFileVideo(): ?string
+    {
+        return $this->nameFileVideo;
+    }
+
+    public function setNameFileVideo(string $nameFileVideo): self
+    {
+        $this->nameFileVideo = $nameFileVideo;
 
         return $this;
     }

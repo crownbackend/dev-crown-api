@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Vidéos {% endblock %}
+
+{% block body %}
+
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Vidéos</h1>
+
+        {% for video in videos %}
+            <div>
+                {{ video.title }}
+            </div>
+        {% endfor %}
+
+    </div>
+    <!-- /.container-fluid -->
+
+
+{#    <figure class="container">#}
+{#        <div class="video-wrapper">#}
+{#            <div class="video-container">#}
+{#                <iframe width="560" height="315" src="https://www.youtube.com/embed/bCS77rG4DZ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+{#            </div>#}
+{#        </div>#}
+{#    </figure>#}
+{% endblock %}
