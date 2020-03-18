@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ video.title }}
+{% endblock %}
+
+{% block body %}
+    <!-- Begin Page Content -->
+    <div class="container">
+        <div class="float-right">
+            <a href="{{ path('admin_video_edit', {"id": video.id}) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a href="{{ path('admin_video_delete', {"id": video.id}) }}" onclick="return confirm('Ceci va supprimer l\'element')" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        </div>
+        <h1>{{ video.title }}</h1>
+        <br>
+        <br>
+        <br>
+        <p>
+            {{ video.description|nl2br }}
+        </p>
+        <br>
+        <br>
+        <br>
+        <video id="player" controls playsinline poster="{{ asset('images/videos/'~video.imageFile) }}">
+            <source src="{{ asset('videos/'~video.nameFileVideo) }}" type="video/ogg" size="1080">
+            <!-- Fallback for browsers that don't support the <video> element -->
+            <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
+        </video>
+        <br>
+    </div>
+{% endblock %}
+
+
+ {#    <figure class="container">#}
+        {#        <div class="video-wrapper">#}
+        {#            <div class="video-container">#}
+        {#                <iframe width="560" height="315" src="https://www.youtube.com/embed/bCS77rG4DZ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </figure>#}
+
