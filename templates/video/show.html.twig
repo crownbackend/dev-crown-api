@@ -17,18 +17,12 @@
         </div>
         <h1>{{ video.title }}</h1>
         <br>
-        <br>
-        <br>
         <p>
             {{ video.description|nl2br }}
         </p>
         <br>
-        <br>
-        <br>
         <video id="player" controls playsinline poster="{{ asset('images/videos/'~video.imageFile) }}">
-            <source src="{{ asset('videos/'~video.nameFileVideo) }}" type="video/ogg" size="1080">
-            <!-- Fallback for browsers that don't support the <video> element -->
-            <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
+            <source src="{{ asset('videos/'~video.nameFileVideo) }}" type="{% if video.typeVideo == 1 %}video/ogg{% endif %}" size="1080">
         </video>
         <br>
     </div>

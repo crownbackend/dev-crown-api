@@ -15,7 +15,7 @@
         {{ form_start(form) }}
             {{ include('video/_form.html.twig') }}
             <div class="mb-4">
-                <img src="{{ asset('images/videos/'~video.imageFile) }}" alt="">
+                <img src="{{ asset('images/videos/'~video.imageFile) }}" alt="{{ video.imageFile }}" class="img-fluid">
             </div>
             <button type="submit" class="btn btn-primary">Editer</button>
         {{ form_end(form) }}

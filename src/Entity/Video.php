@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Video
 {
+    const IDX_TYPE_VIDEO = [
+        1 => "video/ogg"
+    ];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -55,6 +58,11 @@ class Video
      * @ORM\Column(type="string", length=255)
      */
     private $nameFileVideo;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $typeVideo;
 
     public function __construct()
     {
@@ -158,6 +166,18 @@ class Video
     public function setNameFileVideo(string $nameFileVideo): self
     {
         $this->nameFileVideo = $nameFileVideo;
+
+        return $this;
+    }
+
+    public function getTypeVideo(): ?int
+    {
+        return $this->typeVideo;
+    }
+
+    public function setTypeVideo(int $typeVideo): self
+    {
+        $this->typeVideo = $typeVideo;
 
         return $this;
     }

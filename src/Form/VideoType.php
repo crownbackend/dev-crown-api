@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -53,6 +54,12 @@ class VideoType extends AbstractType
                 'label' => 'Image',
                 'mapped' => false,
                 'required' => false,
+            ])
+            ->add("typeVideo", ChoiceType::class, [
+                'choices' => array_flip(Video::IDX_TYPE_VIDEO),
+                "attr" => [
+                    "class" => "form-control"
+                ]
             ])
         ;
     }
