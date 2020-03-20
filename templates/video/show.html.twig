@@ -16,15 +16,20 @@
             </a>
         </div>
         <h1>{{ video.title }}</h1>
+        <span class="badge badge-info">Date de publication : {{ video.publishedAt|date('d/m/Y à H:i') }}</span>
         <br>
         <p>
             {{ video.description|nl2br }}
         </p>
         <br>
         <video id="player" controls playsinline poster="{{ asset('images/videos/'~video.imageFile) }}">
-            <source src="{{ asset('videos/'~video.nameFileVideo) }}" type="{% if video.typeVideo == 1 %}video/ogg{% endif %}" size="1080">
+            <source src="{{ asset('videos/'~video.nameFileVideo) }}" type="{% if video.typeVideo == 1 %}video/ogg {% elseif video.typeVideo == 2 %}video/mp4{% endif %}" size="1080">
         </video>
         <br>
+        <h1>Image de la vidéo</h1>
+        <figure>
+            <img src="{{ asset('images/videos/'~video.imageFile) }}" alt="{{ video.imageFile }}" class="img-fluid">
+        </figure>
     </div>
 {% endblock %}
 

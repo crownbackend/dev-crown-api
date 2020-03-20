@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Video
 {
     const IDX_TYPE_VIDEO = [
-        1 => "video/ogg"
+        1 => "video/ogg",
+        2 => "video/mp4"
     ];
     /**
      * @ORM\Id()
