@@ -1,7 +1,10 @@
 $(document).ready(function() {
     $(".js-datepicker").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
 
-    $('#videosTable').DataTable()
+    $('#videosTable').DataTable({
+        "order": [[ 2, "desc" ]], //or asc
+        "columnDefs" : [{"targets":2, "type":"date-eu"}],
+    })
 
 });
 

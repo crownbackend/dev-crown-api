@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TechnologyRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
-class Technology
+class Forum
 {
     /**
      * @ORM\Id()
@@ -24,23 +24,18 @@ class Technology
     private $name;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="technology")
+     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum")
      */
-    private $videos;
+    private $topics;
 
     public function __construct()
     {
-        $this->videos = new ArrayCollection();
+        $this->topics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,18 +55,6 @@ class Technology
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getImageFile(): ?string
     {
         return $this->imageFile;
@@ -85,30 +68,30 @@ class Technology
     }
 
     /**
-     * @return Collection|Video[]
+     * @return Collection|Topic[]
      */
-    public function getVideos(): Collection
+    public function getTopics(): Collection
     {
-        return $this->videos;
+        return $this->topics;
     }
 
-    public function addVideo(Video $video): self
+    public function addTopic(Topic $topic): self
     {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setTechnology($this);
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+            $topic->setForum($this);
         }
 
         return $this;
     }
 
-    public function removeVideo(Video $video): self
+    public function removeTopic(Topic $topic): self
     {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
             // set the owning side to null (unless already changed)
-            if ($video->getTechnology() === $this) {
-                $video->setTechnology(null);
+            if ($topic->getForum() === $this) {
+                $topic->setForum(null);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -85,11 +87,40 @@ class User implements UserInterface
      */
     private $lastLogin;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentVideo", mappedBy="user")
+     */
+    private $commentsVideo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="user")
+     */
+    private $commentsArticle;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic", mappedBy="likes")
+     */
+    private $topics;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Response", mappedBy="likes")
+     */
+    private $responses;
+
     public function __construct()
     {
         $this->enabled = 0;
         $this->createdAt = new \DateTime();
         $this->roles = ["ROLE_USER"];
+        $this->commentsVideo = new ArrayCollection();
+        $this->commentsArticle = new ArrayCollection();
+        $this->topics = new ArrayCollection();
+        $this->responses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +288,136 @@ class User implements UserInterface
     public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentVideo[]
+     */
+    public function getCommentsVideo(): Collection
+    {
+        return $this->commentsVideo;
+    }
+
+    public function addCommentsVideo(CommentVideo $commentsVideo): self
+    {
+        if (!$this->commentsVideo->contains($commentsVideo)) {
+            $this->commentsVideo[] = $commentsVideo;
+            $commentsVideo->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsVideo(CommentVideo $commentsVideo): self
+    {
+        if ($this->commentsVideo->contains($commentsVideo)) {
+            $this->commentsVideo->removeElement($commentsVideo);
+            // set the owning side to null (unless already changed)
+            if ($commentsVideo->getUser() === $this) {
+                $commentsVideo->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentArticle[]
+     */
+    public function getCommentsArticle(): Collection
+    {
+        return $this->commentsArticle;
+    }
+
+    public function addCommentsArticle(CommentArticle $commentsArticle): self
+    {
+        if (!$this->commentsArticle->contains($commentsArticle)) {
+            $this->commentsArticle[] = $commentsArticle;
+            $commentsArticle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsArticle(CommentArticle $commentsArticle): self
+    {
+        if ($this->commentsArticle->contains($commentsArticle)) {
+            $this->commentsArticle->removeElement($commentsArticle);
+            // set the owning side to null (unless already changed)
+            if ($commentsArticle->getUser() === $this) {
+                $commentsArticle->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+            $topic->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
+            $topic->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): self
+    {
+        if ($this->responses->contains($response)) {
+            $this->responses->removeElement($response);
+            $response->removeLike($this);
+        }
 
         return $this;
     }

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TechnologyRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PlaylisteRepository")
  */
-class Technology
+class Playliste
 {
     /**
      * @ORM\Id()
@@ -29,12 +29,7 @@ class Technology
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="technology")
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="playliste")
      */
     private $videos;
 
@@ -72,18 +67,6 @@ class Technology
         return $this;
     }
 
-    public function getImageFile(): ?string
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(string $imageFile): self
-    {
-        $this->imageFile = $imageFile;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Video[]
      */
@@ -96,7 +79,7 @@ class Technology
     {
         if (!$this->videos->contains($video)) {
             $this->videos[] = $video;
-            $video->setTechnology($this);
+            $video->setPlayliste($this);
         }
 
         return $this;
@@ -107,8 +90,8 @@ class Technology
         if ($this->videos->contains($video)) {
             $this->videos->removeElement($video);
             // set the owning side to null (unless already changed)
-            if ($video->getTechnology() === $this) {
-                $video->setTechnology(null);
+            if ($video->getPlayliste() === $this) {
+                $video->setPlayliste(null);
             }
         }
 

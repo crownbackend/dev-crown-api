@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,14 +34,29 @@ class Article
     private $createdAt;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
-    private $published;
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $imageFile;
+    private $slug;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $publishedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="article")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,18 +99,6 @@ class Article
         return $this;
     }
 
-    public function getPublished(): ?bool
-    {
-        return $this->published;
-    }
-
-    public function setPublished(bool $published): self
-    {
-        $this->published = $published;
-
-        return $this;
-    }
-
     public function getImageFile(): ?string
     {
         return $this->imageFile;
@@ -102,6 +107,61 @@ class Article
     public function setImageFile(string $imageFile): self
     {
         $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(\DateTimeInterface $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentArticle[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(CommentArticle $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(CommentArticle $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getArticle() === $this) {
+                $comment->setArticle(null);
+            }
+        }
 
         return $this;
     }
