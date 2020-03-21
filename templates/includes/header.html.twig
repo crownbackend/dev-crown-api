@@ -84,10 +84,27 @@
             </div>
         </li>
 
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForum" aria-expanded="true" aria-controls="collapseForum">
+                <i class="fas fa-align-justify"></i>
+                <span>Forum</span>
+            </a>
+            <div id="collapseForum" class="collapse" aria-labelledby="headingForum" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ path('admin_forum') }}">Liste des forums</a>
+                    <a class="collapse-item" href="{{ path('admin_forum_new') }}">Ajouter un forum</a>
+                    <a class="collapse-item" href="">Liste des topcis</a>
+                    <a class="collapse-item" href="">Ajouter un topci</a>
+                </div>
+            </div>
+        </li>
+
         <!-- Nav Item - Tables -->
         <li class="nav-item">
             <a class="nav-link" href="tables.html">
-                <span>Forum</span></a>
+                <span>Forum</span>
+            </a>
         </li>
 
         <!-- Divider -->

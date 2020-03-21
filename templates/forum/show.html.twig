@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ forum.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Basic Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary">{{ forum.name }}</h3>
+            </div>
+            <div class="card-body">
+                {{ forum.description }}
+                <br>
+                <br>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="videosTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Description</th>
+                            <th>date de publication</th>
+                            <th>action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for topic in forum.topics %}
+                            <tr>
+                                <td>{{ topic.title }}</td>
+                                <td title="{{ topic.description }}">{{ topic.description|slice(0,50) }}</td>
+                                <td>{{ video.publishedAt|date('d/m/Y') }}</td>
+                                <td>
+                                    <a href="{{ path('admin_video_show', {"id": topic.id}) }}" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ path('admin_video_edit', {"id": topic.id}) }}" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ path('admin_video_delete', {"id": topic.id}) }}" onclick="return confirm('Ceci va supprimer l\'element')" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

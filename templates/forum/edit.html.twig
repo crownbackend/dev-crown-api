@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+
+    <!-- Begin Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Editer un forum</h1>
+        <br>
+
+        {{ form_start(form) }}
+        {{ include('forum/_form.html.twig') }}
+        <div class="mb-4">
+            <img src="{{ asset('images/forum/'~forum.imageFile) }}" alt="{{ forum.imageFile }}" class="img-fluid">
+        </div>
+        <button type="submit" class="btn btn-primary">Editer</button>
+        {{ form_end(form) }}
+
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}
+

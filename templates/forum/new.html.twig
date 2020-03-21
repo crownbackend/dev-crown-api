@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Ajouter un forum
+{% endblock %}
+
+{% block body %}
+
+
+    <!-- Begin Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Ajouter un forum</h1>
+        <br>
+
+        {{ form_start(form) }}
+        {{ include('forum/_form.html.twig') }}
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}
+

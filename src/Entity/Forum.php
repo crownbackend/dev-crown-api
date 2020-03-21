@@ -33,6 +33,11 @@ class Forum
      */
     private $topics;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -94,6 +99,18 @@ class Forum
                 $topic->setForum(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
