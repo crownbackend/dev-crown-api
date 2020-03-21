@@ -74,6 +74,7 @@ class Video
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Technology", inversedBy="videos")
+     * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $technology;
 

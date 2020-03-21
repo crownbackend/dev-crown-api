@@ -1,4 +1,14 @@
 <div class="form-group">
+    {{ form_label(form.technology) }}
+    {{ form_widget(form.technology) }}
+    {{ form_errors(form.technology) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.playliste) }}
+    {{ form_widget(form.playliste) }}
+    {{ form_errors(form.playliste) }}
+</div>
+<div class="form-group">
     {{ form_label(form.title) }}
     {{ form_widget(form.title) }}
     {{ form_errors(form.title) }}

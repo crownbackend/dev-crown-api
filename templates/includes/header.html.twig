@@ -30,11 +30,11 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVideo" aria-expanded="true" aria-controls="collapseVideo">
                 <i class="fas fa-video"></i>
                 <span>Vidéos</span>
             </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseVideo" class="collapse" aria-labelledby="headingVideo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ path('admin_video') }}">Liste des vidéos </a>
                     <a class="collapse-item" href="{{ path('admin_video_new') }}">Ajouter une vidéo</a>
@@ -42,10 +42,46 @@
             </div>
         </li>
 
-        <!-- Nav Item - Tables -->
+        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <span>Blog</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="true" aria-controls="collapseTechnology">
+                <i class="fas fa-layer-group"></i>
+                <span>Technologies</span>
+            </a>
+            <div id="collapseTechnology" class="collapse" aria-labelledby="headingTechnology" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ path('admin_technology') }}">Liste des technologies </a>
+                    <a class="collapse-item" href="{{ path('admin_technology_new') }}">Ajouter une technologie</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlayliste" aria-expanded="true" aria-controls="collapsePlayliste">
+                <i class="fas fa-play"></i>
+                <span>Playlistes</span>
+            </a>
+            <div id="collapsePlayliste" class="collapse" aria-labelledby="headingPlayliste" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="">Liste des playlistes </a>
+                    <a class="collapse-item" href="">Ajouter une playliste</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog" aria-expanded="true" aria-controls="collapseBlog">
+                <i class="fas fa-blog"></i>
+                <span>Blog</span>
+            </a>
+            <div id="collapseBlog" class="collapse" aria-labelledby="headingBlog" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="">Liste des articles </a>
+                    <a class="collapse-item" href="">Ajouter un article</a>
+                </div>
+            </div>
         </li>
 
         <!-- Nav Item - Tables -->

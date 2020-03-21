@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Technologies{% endblock %}
+
+{% block body %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Liste des technologies</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="TechnologyTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Description</th>
+                            <th>Nombre de vidéo</th>
+                            <th>action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for technology in technologies %}
+                            <tr>
+                                <td>{{ technology.name }}</td>
+                                <td title="{{ technology.description }}">{{ technology.description|slice(0,50) }}</td>
+                                <td>{{ technology.videos|length }}</td>
+                                <td>
+                                    <a href="{{ path('admin_technology_show', {"id": technology.id}) }}" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ path('admin_technology_edit', {"id": technology.id}) }}" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ path('admin_technology_delete', {"id": technology.id}) }}" onclick="return confirm('Ceci va supprimer l\'element')" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}

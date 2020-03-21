@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Playliste;
+use App\Entity\Technology;
 use App\Entity\Video;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -60,6 +63,21 @@ class VideoType extends AbstractType
                 "attr" => [
                     "class" => "form-control"
                 ]
+            ])
+            ->add("playliste", EntityType::class, [
+                "class" => Playliste::class,
+                "choice_label" => "name",
+                "attr" => [
+                    "class" => "form-control"
+                ]
+            ])
+            ->add("technology", EntityType::class, [
+                "class" => Technology::class,
+                "choice_label" => "name",
+                "attr" => [
+                    "class" => "form-control"
+                ],
+                "required" => false
             ])
         ;
     }
