@@ -64,8 +64,8 @@
             </a>
             <div id="collapsePlayliste" class="collapse" aria-labelledby="headingPlayliste" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="">Liste des playlistes </a>
-                    <a class="collapse-item" href="">Ajouter une playliste</a>
+                    <a class="collapse-item" href="{{ path('admin_playlist') }}">Liste des playlistes </a>
+                    <a class="collapse-item" href="{{ path('admin_playlist_new') }}">Ajouter une playliste</a>
                 </div>
             </div>
         </li>
@@ -88,12 +88,6 @@
         <li class="nav-item">
             <a class="nav-link" href="tables.html">
                 <span>Forum</span></a>
-        </li>
-
-        <!-- Nav Item - Tables -->
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <span>Technologie</span></a>
         </li>
 
         <!-- Divider -->

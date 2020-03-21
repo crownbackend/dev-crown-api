@@ -51,11 +51,11 @@ class VideoController extends AbstractController
      */
     public function new(Request $request, FileUploader $fileUploader): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $video = new Video();
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $imageFile = $form->get('imageFile')->getData();
             if($imageFile) {
                 $imageFileName = $fileUploader->upload($imageFile);
@@ -80,10 +80,10 @@ class VideoController extends AbstractController
      */
     public function edit(Request $request, Video $video, FileUploader $fileUploader): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $imageFile = $form->get('imageFile')->getData();
             if($imageFile) {
                 $imageFileName = $fileUploader->upload($imageFile, $video->getImageFile(), 'image_directory', 1);

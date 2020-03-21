@@ -51,12 +51,12 @@ class TechnologyController extends AbstractController
      */
     public function new(Request $request, FileUploader $fileUploader): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $technology = new Technology();
         $form = $this->createForm(TechnologyType::class, $technology);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $imageFile = $form->get('imageFile')->getData();
             if($imageFile) {
                 $imageFileName = $fileUploader->upload($imageFile, null, "technology_directory");
@@ -81,10 +81,10 @@ class TechnologyController extends AbstractController
      */
     public function edit(Request $request, FileUploader $fileUploader, Technology $technology): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(TechnologyType::class, $technology);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $imageFile = $form->get('imageFile')->getData();
             if($imageFile) {
                 $imageFileName = $fileUploader->upload($imageFile, $technology->getImageFile(), 'technology_directory', 1);

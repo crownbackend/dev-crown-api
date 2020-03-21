@@ -69,7 +69,8 @@ class VideoType extends AbstractType
                 "choice_label" => "name",
                 "attr" => [
                     "class" => "form-control"
-                ]
+                ],
+                "required" => false
             ])
             ->add("technology", EntityType::class, [
                 "class" => Technology::class,

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Ajouter une playliste
+{% endblock %}
+
+{% block body %}
+
+
+    <!-- Begin Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Ajouter une playliste</h1>
+        <br>
+
+        {{ form_start(form) }}
+        {{ include('playlist/_form.html.twig') }}
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}
+

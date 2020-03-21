@@ -80,6 +80,7 @@ class Video
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Playliste", inversedBy="videos")
+     * @ORM\JoinColumn(name="playliste_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $playliste;
 
