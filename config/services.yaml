@@ -6,6 +6,7 @@
 parameters:
     image_directory: '%kernel.project_dir%/public/images/videos'
     technology_directory: '%kernel.project_dir%/public/images/technology'
+    articles_directory: '%kernel.project_dir%/public/images/articles'
 
 services:
     # default configuration for services in *this* file

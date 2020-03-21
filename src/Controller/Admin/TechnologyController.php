@@ -109,7 +109,7 @@ class TechnologyController extends AbstractController
     public function delete(FileUploader $fileUploader, Technology $technology): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
-        $fileUploader->deleteFile($technology->getImageFile());
+        $fileUploader->deleteFile($technology->getImageFile(), "technology_directory");
         $em->remove($technology);
         $em->flush();
         return $this->redirectToRoute('admin_technology');

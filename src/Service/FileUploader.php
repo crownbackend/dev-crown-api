@@ -49,7 +49,7 @@ class FileUploader extends AbstractController {
                 unlink($this->getParameter("$directory").'/'.$entity);
             }
         } else {
-            return $this->redirectToRoute('admin_images_index');
+            return $this->redirectToRoute('admin_home');
         }
     }
 }

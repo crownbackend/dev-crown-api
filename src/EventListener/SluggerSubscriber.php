@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Entity\Article;
 use App\Entity\Video;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
@@ -24,17 +25,29 @@ class SluggerSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args)
     {
         $this->sluggerVideo('persist', $args);
+        $this->sluggerArticle('persist', $args);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
     {
         $this->sluggerVideo('update', $args);
+        $this->sluggerArticle('update', $args);
     }
 
     public function sluggerVideo(string $action, LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
         if(!$entity instanceof Video) {
+            return;
+        }
+        $slug = $this->slugify($entity->getTitle());
+        $entity->setSlug($slug);
+    }
+
+    public function sluggerArticle(string $action, LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if(!$entity instanceof Article) {
             return;
         }
         $slug = $this->slugify($entity->getTitle());

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="float-right">
+        <a href="{{ path('admin_article_edit', {"id": article.id}) }}" class="btn btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="{{ path('admin_article_delete', {"id": article.id}) }}" onclick="return confirm('Ceci va supprimer l\'element')" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </div>
+    <h1>{{ article.title }}</h1>
+    <span class="badge badge-info">Date de publication : {{ article.publishedAt|date('d/m/Y à H:i') }}</span>
+    <br>
+    <br>
+    <p>
+        {{ article.description|nl2br }}
+    </p>
+    <br>
+    <br>
+    <br>
+    <h1>Image de l'article</h1>
+    <figure>
+        <img src="{{ asset('images/articles/'~article.imageFile) }}" alt="{{ article.imageFile }}" class="img-fluid">
+    </figure>
+</div>
+{% endblock %}
+
