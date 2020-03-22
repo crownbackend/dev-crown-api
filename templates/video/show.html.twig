@@ -19,7 +19,7 @@
         <span class="badge badge-info">Date de publication : {{ video.publishedAt|date('d/m/Y à H:i') }}</span>
         <br>
         <p>
-            {{ video.description|nl2br }}
+            {{ video.description|raw }}
         </p>
         <br>
         <video id="player" controls playsinline poster="{{ asset('images/videos/'~video.imageFile) }}">

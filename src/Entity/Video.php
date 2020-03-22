@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
@@ -16,6 +17,7 @@ class Video
         2 => "video/mp4"
     ];
     /**
+     * @Groups("videos")
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -23,16 +25,19 @@ class Video
     private $id;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="text")
      */
     private $videoURL;
@@ -43,21 +48,25 @@ class Video
     private $createdAt;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="string")
      */
     private $imageFile;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="string", length=255)
      */
     private $nameFileVideo;
@@ -68,17 +77,20 @@ class Video
     private $typeVideo;
 
     /**
+     * @Groups("videos")
      * @ORM\OneToMany(targetEntity="App\Entity\CommentVideo", mappedBy="video")
      */
     private $comments;
 
     /**
+     * @Groups("videos")
      * @ORM\ManyToOne(targetEntity="App\Entity\Technology", inversedBy="videos")
      * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $technology;
 
     /**
+     * @Groups("videos")
      * @ORM\ManyToOne(targetEntity="App\Entity\Playliste", inversedBy="videos")
      * @ORM\JoinColumn(name="playliste_id", referencedColumnName="id", onDelete="SET NULL")
      */

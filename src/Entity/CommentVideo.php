@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentVideoRepository")
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CommentVideo
 {
     /**
+     * @Groups("videos")
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -17,11 +19,13 @@ class CommentVideo
     private $id;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
+     * @Groups("videos")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -32,6 +36,7 @@ class CommentVideo
     private $video;
 
     /**
+     * @Groups("videos")
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentsVideo")
      */
     private $user;

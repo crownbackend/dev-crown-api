@@ -18,6 +18,7 @@
                     <table class="table table-bordered" id="videosTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th>Technologie</th>
                             <th>Titre</th>
                             <th>Description</th>
                             <th>date de publication</th>
@@ -27,8 +28,9 @@
                         <tbody>
                         {% for video in videos %}
                             <tr>
+                                <td>{% if video.technology %}{{ video.technology.name }}{% endif %}</td>
                                 <td>{{ video.title }}</td>
-                                <td title="{{ video.description }}">{{ video.description|slice(0,50) }}</td>
+                                <td title="{{ video.description }}">{{ video.description|slice(0,50)|raw }}</td>
                                 <td>{{ video.publishedAt|date('d/m/Y') }}</td>
                                 <td>
                                     <a href="{{ path('admin_video_show', {"id": video.id}) }}" class="btn btn-primary">

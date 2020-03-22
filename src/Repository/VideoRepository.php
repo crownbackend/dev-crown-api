@@ -19,6 +19,14 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
+    public function findByVideos()
+    {
+        return $this->createQueryBuilder("v")
+            ->orderBy("v.publishedAt", "DESC")
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Video[] Returns an array of Video objects
     //  */

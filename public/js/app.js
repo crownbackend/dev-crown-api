@@ -1,9 +1,13 @@
 $(document).ready(function() {
     $(".js-datepicker").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
 
-    $('#videosTable, #articleTable').DataTable({
+    $('#articleTable').DataTable({
         "order": [[ 2, "desc" ]], //or asc
         "columnDefs" : [{"targets":2, "type":"date-eu"}],
+    });
+    $('#videosTable').DataTable({
+        "order": [[ 3, "desc" ]], //or asc
+        "columnDefs" : [{"targets":3, "type":"date-eu"}],
     });
 
     $("#TechnologyTable, #playlistTable, #forumTable, #topicTable, #forumShowTable").DataTable();
