@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ topic.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="float-right">
+        <a href="{{ path('admin_topic_edit', {"id": topic.id}) }}" class="btn btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="{{ path('admin_topic_delete', {"id": topic.id}) }}" onclick="return confirm('Ceci va supprimer l\'element')" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </div>
+    <h1>{{ topic.title }}</h1>
+    <span class="badge badge-info">Date de création : {{ topic.createdAt|date('d/m/Y à H:i') }}</span>
+    {% if topic.resolve == 1 %}
+        <span class="badge badge-success">Résolu</span>
+    {% else %}
+        <span class="badge badge-info">Non résolu</span>
+    {% endif %}
+    {% if topic.close == 1 %}
+        <span class="badge badge-danger">Sujet fermer</span>
+    {% endif %}
+    <br>
+    <br>
+    <p>
+        {{ topic.description|nl2br }}
+    </p>
+    <br>
+    <br>
+    <div>
+        {% for response in topic.responses %}
+            <div>{{ response.createsAt|date("d/m/Y") }}</div>
+            <p>{{ response.content }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

@@ -65,6 +65,9 @@ class Topic
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
+        $this->close = 0;
+        $this->resolve = 0;
         $this->responses = new ArrayCollection();
         $this->likes = new ArrayCollection();
     }

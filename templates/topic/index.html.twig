@@ -1,27 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-{{ forum.name }}
-{% endblock %}
+{% block title %}Liste des topics{% endblock %}
 
 {% block body %}
+
+    <!-- Begin Page Content -->
     <div class="container-fluid">
-        <!-- Basic Card Example -->
+
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h3 class="m-0 font-weight-bold text-primary">{{ forum.name }}</h3>
+                <h6 class="m-0 font-weight-bold text-primary">Liste des topic</h6>
             </div>
             <div class="card-body">
-                {{ forum.description }}
-                <br>
-                <br>
-                <hr>
-                <br>
-                <figure>
-                    <img src="{{ asset('images/forum/'~forum.imageFile) }}" class="img-fluid" width="200" height="200" alt="{{ forum.imageFile }}">
-                </figure>
-                <br>
-                <hr>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="videosTable" width="100%" cellspacing="0">
                         <thead>
@@ -36,7 +26,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for topic in forum.topics %}
+                        {% for topic in topics %}
                             <tr>
                                 <td>{{ topic.title }}</td>
                                 <td title="{{ topic.description }}">{{ topic.description|slice(0,50) }}</td>
@@ -74,6 +64,9 @@
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
 
+    </div>
+    <!-- /.container-fluid -->
+
+
+{% endblock %}

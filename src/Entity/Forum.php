@@ -29,7 +29,7 @@ class Forum
     private $imageFile;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum")
+     * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
     private $topics;
 
