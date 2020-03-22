@@ -28,7 +28,7 @@ class VideoType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control ckeditor"
                 ],
                 "label" => "Description"
             ])
@@ -67,6 +67,7 @@ class VideoType extends AbstractType
             ->add("playliste", EntityType::class, [
                 "class" => Playliste::class,
                 "choice_label" => "name",
+                "placeholder" => "Choisire une playliste",
                 "attr" => [
                     "class" => "form-control"
                 ],
@@ -75,6 +76,7 @@ class VideoType extends AbstractType
             ->add("technology", EntityType::class, [
                 "class" => Technology::class,
                 "choice_label" => "name",
+                "placeholder" => "Choisire une technologie",
                 "attr" => [
                     "class" => "form-control"
                 ],

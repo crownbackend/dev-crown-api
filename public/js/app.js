@@ -8,6 +8,8 @@ $(document).ready(function() {
 
     $("#TechnologyTable, #playlistTable, #forumTable, #topicTable, #forumShowTable").DataTable();
 
+    $('textarea.ckeditor').ckeditor();
+
 });
 
 document.addEventListener('DOMContentLoaded', () => {

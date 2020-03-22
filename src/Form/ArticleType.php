@@ -25,7 +25,7 @@ class ArticleType extends AbstractType
             ->add('description', TextareaType::class, [
                 "label" => "description",
                 "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control ckeditor"
                 ]
             ])
             ->add('imageFile', FileType::class, [

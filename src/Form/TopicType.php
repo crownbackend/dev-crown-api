@@ -26,7 +26,7 @@ class TopicType extends AbstractType
             ->add('description', TextareaType::class, [
                 "label" => "Description",
                  "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control ckeditor"
                 ],
             ])
             ->add('resolve', CheckboxType::class, [
@@ -40,6 +40,7 @@ class TopicType extends AbstractType
             ->add('forum', EntityType::class, [
                 "class" => Forum::class,
                 "choice_label" => "name",
+                "placeholder" => "Choisire un forum",
                 "attr" => [
                     "class" => "form-control"
                 ],
