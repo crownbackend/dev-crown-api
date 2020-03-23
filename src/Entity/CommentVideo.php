@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class CommentVideo
 {
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,13 +19,13 @@ class CommentVideo
     private $id;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -36,7 +36,7 @@ class CommentVideo
     private $video;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentsVideo")
      */
     private $user;

@@ -17,7 +17,7 @@ class Video
         2 => "video/mp4"
     ];
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -25,19 +25,19 @@ class Video
     private $id;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\Column(type="text")
      */
     private $videoURL;
@@ -48,7 +48,7 @@ class Video
     private $createdAt;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;
@@ -60,37 +60,38 @@ class Video
     private $slug;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\Column(type="string")
      */
     private $imageFile;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\Column(type="string", length=255)
      */
     private $nameFileVideo;
 
     /**
+     * @Groups({"video"})
      * @ORM\Column(type="integer")
      */
     private $typeVideo;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "video"})
      * @ORM\OneToMany(targetEntity="App\Entity\CommentVideo", mappedBy="video")
      */
     private $comments;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Technology", inversedBy="videos")
      * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $technology;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "video"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Playliste", inversedBy="videos")
      * @ORM\JoinColumn(name="playliste_id", referencedColumnName="id", onDelete="SET NULL")
      */

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -32,5 +33,17 @@ class VideoController extends AbstractController
     public function lastVideos(VideoRepository $videoRepository): JsonResponse
     {
         return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "lastVideos"]);
+    }
+
+    /**
+     * @Route("/video/{slug}/{id}", name="video", methods={"GET"})
+     * @param string $slug
+     * @param int $id
+     * @param VideoRepository $videoRepository
+     * @return JsonResponse
+     */
+    public function video($slug, $id, VideoRepository $videoRepository, Request $request): JsonResponse
+    {
+        return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ], 200, [], ["groups" => "video"]);
     }
 }
