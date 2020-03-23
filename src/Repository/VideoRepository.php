@@ -27,6 +27,15 @@ class VideoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByLastVideos()
+    {
+        return $this->createQueryBuilder("v")
+            ->orderBy("v.publishedAt", "DESC")
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Video[] Returns an array of Video objects
     //  */

@@ -17,7 +17,7 @@ class Video
         2 => "video/mp4"
     ];
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -25,13 +25,13 @@ class Video
     private $id;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="text")
      */
     private $description;
@@ -48,19 +48,19 @@ class Video
     private $createdAt;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="string")
      */
     private $imageFile;
@@ -83,14 +83,14 @@ class Video
     private $comments;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Technology", inversedBy="videos")
      * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $technology;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Playliste", inversedBy="videos")
      * @ORM\JoinColumn(name="playliste_id", referencedColumnName="id", onDelete="SET NULL")
      */

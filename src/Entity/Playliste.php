@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Playliste
 {
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,7 +21,7 @@ class Playliste
     private $id;
 
     /**
-     * @Groups("videos")
+     * @Groups({"videos", "lastVideos"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;

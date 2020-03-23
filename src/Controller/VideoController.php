@@ -23,4 +23,14 @@ class VideoController extends AbstractController
     {
         return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
     }
+
+    /**
+     * @Route("/last/videos", name="videos_last", methods={"GET"})
+     * @param VideoRepository $videoRepository
+     * @return JsonResponse
+     */
+    public function lastVideos(VideoRepository $videoRepository): JsonResponse
+    {
+        return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "lastVideos"]);
+    }
 }

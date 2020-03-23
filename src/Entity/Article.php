@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Article
 {
     /**
+     * @Groups({"articles"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,11 +21,13 @@ class Article
     private $id;
 
     /**
+     * @Groups({"articles"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"articles"})
      * @ORM\Column(type="text")
      */
     private $description;
@@ -34,16 +38,19 @@ class Article
     private $createdAt;
 
     /**
+     * @Groups({"articles"})
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
 
     /**
+     * @Groups({"articles"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
+     * @Groups({"articles"})
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;

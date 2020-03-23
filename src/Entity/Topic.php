@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Topic
 {
     /**
+     * @Groups({"lastTopics"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,6 +21,7 @@ class Topic
     private $id;
 
     /**
+     * @Groups({"lastTopics"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -39,6 +42,7 @@ class Topic
     private $updatedAt;
 
     /**
+     * @Groups({"lastTopics"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
@@ -49,6 +53,7 @@ class Topic
     private $close;
 
     /**
+     * @Groups({"lastTopics"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
      */
     private $forum;
