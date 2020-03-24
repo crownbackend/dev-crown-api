@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CommentVideo;
+use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,32 +20,13 @@ class CommentVideoRepository extends ServiceEntityRepository
         parent::__construct($registry, CommentVideo::class);
     }
 
-    // /**
-    //  * @return CommentVideo[] Returns an array of CommentVideo objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByCommentsByVideo(Video $video)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("c")
+            ->where("c.video = :video")
+            ->orderBy("c.createdAt", "DESC")
+            ->setParameter("video", $video)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CommentVideo
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

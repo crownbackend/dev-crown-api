@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Télécharger votre vidéo</title>
+    <style>
+        * {
+            margin: 0px auto;
+            padding: 0px;
+            text-align: center;
+        }
+
+        .title {
+            margin-top: 50px;
+            font-family: Arial;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .cont_principal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgb(197,222,234);
+            background: -moz-linear-gradient(-45deg,  rgba(197,222,234,1) 0%, rgba(138,187,215,1) 31%, rgba(6,109,171,1) 100%);
+            background: -webkit-linear-gradient(-45deg,  rgba(197,222,234,1) 0%,rgba(138,187,215,1) 31%,rgba(6,109,171,1) 100%);
+            background: linear-gradient(135deg,  rgba(197,222,234,1) 0%,rgba(138,187,215,1) 31%,rgba(6,109,171,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab',GradientType=1 );
+
+        }
+        .cont_centrar {
+            position: absolute;
+            width: 300px;
+            height: 100px;
+            /*   background-color: #eee; */
+            top:50%;
+            left: 50%;
+            margin-left: -150px;
+            margin-top: -50px;
+            cursor: pointer;
+        }
+
+        .texto_centro {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: 800;
+            font-family: Arial;
+            color: #fff;
+        }
+
+        .active_txt {
+            animation: text_anim 0.3s infinite  alternate;
+        }
+
+        #svg4174 {
+            position: absolute;
+            top:0px;
+            left: 0px;
+        }
+        .activebtn_fin   #rect4147 {
+            transition: all 0.5s;
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 800px,800px;
+        }
+        .activebtn   #rect4147 {
+            stroke-dashoffset: 800px;
+            stroke-dasharray: 0px,800px;
+            transition: all 2s;
+            animation: dash_movimiento 15s 1 alternate;
+            -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+            animation-delay: 2s;
+        }
+        #rect4147 {
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 800px,800px;
+
+        }
+
+
+        @-webkit-keyframes dash_movimiento {
+            0% { stroke-dashoffset: 800;
+                stroke-dasharray: 0px;
+            }
+
+            100% {
+                stroke-dashoffset: 0px;
+                stroke-dasharray: 800px,800px;
+            }
+
+        }
+        @-o-keyframes dash_movimiento {
+            0% { stroke-dashoffset: 800;
+                stroke-dasharray: 100px;
+            }
+
+            100% {
+                stroke-dashoffset: 0px;
+                stroke-dasharray: 800px,800px;
+            }
+
+        }
+        @-moz-keyframes dash_movimiento {
+            0% { stroke-dashoffset: 800;
+                stroke-dasharray: 100px;
+            }
+
+            100% {
+                stroke-dashoffset: 0px;
+                stroke-dasharray: 800px,800px;
+            }
+        }
+        @keyframes dash_movimiento {
+            0% {
+                stroke-dashoffset: 800px;
+                stroke-dasharray:0px,800px;
+            }
+
+            10% {
+                stroke-dashoffset: 700px;
+                stroke-dasharray:100px,800px;
+            }
+
+            20% {
+                stroke-dashoffset: 600px;
+                stroke-dasharray:200px,800px;
+            }
+            30% {
+                stroke-dashoffset: 500px;
+                stroke-dasharray:300px,800px;
+            }
+            40% {
+                stroke-dashoffset: 400px;
+                stroke-dasharray:400px,800px;
+            }
+            50% {
+                stroke-dashoffset: 300px;
+                stroke-dasharray:500px,800px;
+            }
+            60% {
+                stroke-dashoffset: 200px;
+                stroke-dasharray:600px,800px;
+            }
+            70% {
+                stroke-dashoffset: 100px;
+                stroke-dasharray:700px,800px;
+
+            }
+            80% {
+                stroke-dashoffset: 50px;
+                stroke-dasharray:750px,800px;
+
+            }
+            90% {
+                stroke-dashoffset: 25px;
+                stroke-dasharray:770px,800px;
+            }
+            100% {
+                stroke-dashoffset: 0px;
+                stroke-dasharray: 800px,800px;
+            }
+
+        }
+
+
+        @-webkit-keyframes text_anim {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+
+        }
+        @-o-keyframes text_anim {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+
+        }
+        @-moz-keyframes text_anim {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+        @keyframes text_anim {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+
+        }
+
+        #path4138 {
+            stroke-dashoffset: 30px;
+            stroke-dasharray: 30px,30px;
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        .activebtn_fin #path4138 {
+            stroke-dashoffset: 0px;
+            transition-delay: 0.5s;
+            opacity: 1;
+        }
+
+        .op_0 {
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        #svg2{
+
+            position: absolute;
+            top: 33px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div class="cont_principal">
+<div style="float: left">
+    <a href="{{ host_front }}">
+        <img src="{{ asset('img/logo.png') }}" alt="logo de la page" width="100" height="150">
+    </a>
+</div>
+    <h1 class="title">dev-crown.com</h1>
+    <h3 class="title" >Pour télécharger la vidéo "{{ name }}" Cliquer sur le button télécharger !</h3>
+    <a href="{{ asset('videos/'~name) }}" download="">
+        <div class="cont_centrar" onclick=" btn_active()" >
+
+            <p class="texto_centro">Télécharger</p>
+            <svg
+                    version="1.1"
+                    id="svg4174"
+                    viewBox="0 0 300 100"
+                    height="100"
+                    width="300">
+                <g
+                        transform="translate(0,-952.36216)"
+                        id="layer1">
+                    <rect
+                            y="955.21716"
+                            x="2.8549886"
+                            height="94.290024"
+                            width="294.29001"
+                            id="rect4147"
+                            style="opacity:1;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5.70997715;stroke-miterlimit:4; stroke-opacity:1" />
+
+            </svg>
+            <svg
+
+                    xmlns:svg="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    id="svg2"
+                    viewBox="0 0 20 20.000001"
+                    height="32"
+                    width="32">
+                <defs
+                        id="defs4" />
+                <metadata
+                        id="metadata7">
+                    <rdf:RDF>
+                        <cc:Work
+                                rdf:about="">
+                            <dc:format>image/svg+xml</dc:format>
+                            <dc:type
+                                    rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                            <dc:title></dc:title>
+                        </cc:Work>
+                    </rdf:RDF>
+                </metadata>
+                <g
+                        transform="translate(0,-1032.3622)"
+                        id="layer1">
+                    <path
+                            id="path4138"
+                            d="m 0.89488966,1042.5048 5.36642974,5.4927 12.8794496,-11.9324"
+                            style="fill:none;fill-rule:evenodd;stroke:#fff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1" />
+                </g>
+            </svg>
+        </div>
+    </a>
+
+</div>
+
+<script type="text/javascript">
+    function btn_active(){
+        document.querySelector('.texto_centro').className = "texto_centro active_txt";
+        document.querySelector('.cont_centrar').className = "cont_centrar activebtn";
+        setTimeout(function(){
+            document.querySelector('.cont_centrar').className = "cont_centrar activebtn_fin";
+            document.querySelector('.texto_centro').className = "texto_centro op_0";
+        },1000);
+        setTimeout(function () {
+            window.location.href = "{{ host_front }}"
+        }, 5000)
+    }
+</script>
+</body>
+</html>

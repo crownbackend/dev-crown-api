@@ -41,6 +41,12 @@ class CommentVideo
      */
     private $user;
 
+    /**
+     * @Groups({"videos", "video"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,18 @@ class CommentVideo
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

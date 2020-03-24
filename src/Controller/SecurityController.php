@@ -31,6 +31,7 @@ class SecurityController extends AbstractController
     public function loginApi(JWTTokenManagerInterface $JWTTokenManager, UserRepository $userRepository,
                           Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
+        $em = $this->getDoctrine()->getManager();
         // get login and password form request content
         $data = json_decode($request->getContent(), true);
         // check user exist
@@ -43,12 +44,17 @@ class SecurityController extends AbstractController
         }
         if($user && $passwordEncoder->isPasswordValid($user, $data['password'])) {
             if(in_array("ROLE_USER",$user->getRoles())) {
+                $user->setLastLogin(new \DateTime());
+                $em->persist($user);
                 return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername(),
                     "connection" => 1], 200);
             } else if(in_array("ROLE_ADMIN", $user->getRoles())) {
+                $user->setLastLogin(new \DateTime());
+                $em->persist($user);
                 return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername()],
                     200);
             }
+            $em->flush();
         } else {
             return  $this->json(["errorLogin" => 0], 200);
         }
