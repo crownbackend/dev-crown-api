@@ -27,6 +27,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return JsonResponse
+     * @throws \Exception
      */
     public function loginApi(JWTTokenManagerInterface $JWTTokenManager, UserRepository $userRepository,
                           Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse

@@ -19,6 +19,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommentController extends AbstractController
 {
+
+    /**
+     * @Route("/comments/{id}", name="comments", methods={"GET"})
+     * @param $id
+     * @param CommentVideoRepository $commentVideoRepository
+     * @param VideoRepository $videoRepository
+     * @return JsonResponse
+     */
+    public function comments($id, CommentVideoRepository $commentVideoRepository, VideoRepository $videoRepository): JsonResponse
+    {
+        $video = $videoRepository->findOneBy(["id" => (int)$id]);
+        return  $this->json(["comments" => $commentVideoRepository->findByCommentsByVideo($video)], 200, [], ["groups" => "video"]);
+    }
+
     /**
      * @Route("/comments", name="comment_new", methods={"POST"})
      * @param Request $request
@@ -56,25 +70,47 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comments", name="edit_comment", methods={"PUT"})
+     * @Route("/comments/{id}", name="comment_edit", methods={"PUT"})
      * @param Request $request
+     * @param $id
+     * @param CommentVideoRepository $commentVideoRepository
+     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function edit(Request $request): JsonResponse
+    public function edit(Request $request, $id, CommentVideoRepository $commentVideoRepository, JWTEncoderInterface $JWTEncoder): JsonResponse
     {
-        return $this->json($request->request);
+        $tokenValid = $JWTEncoder->decode($request->request->get("token"));
+        if(strlen($request->request->get("content")) < 10) {
+            return $this->json(["comment" => 0]);
+        }
+        if($tokenValid['username']) {
+            $em = $this->getDoctrine()->getManager();
+            $comment = $commentVideoRepository->findOneBy(["id" => (int)$id]);
+            $comment->setContent($request->request->get('content'));
+            $comment->setUpdatedAt(new \DateTime());
+            $em->persist($comment);
+            $em->flush();
+            return $this->json(["comments" => $commentVideoRepository->findByCommentsByVideo($comment->getVideo()), "edit" => 1], 200, [], ["groups" => "video"]);
+        } else {
+            return $this->json($tokenValid);
+        }
     }
 
     /**
-     * @Route("/comments/{id}", name="comments", methods={"GET"})
-     * @param $id
-     * @param CommentVideoRepository $commentVideoRepository
-     * @param VideoRepository $videoRepository
+     * @Route("/delete/{id}", name="comment_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function comments($id, CommentVideoRepository $commentVideoRepository, VideoRepository $videoRepository): JsonResponse
+    public function deleteComment(Request $request, JWTEncoderInterface $JWTEncoder): JsonResponse
     {
-        $video = $videoRepository->findOneBy(["id" => (int)$id]);
-        return  $this->json(["comments" => $commentVideoRepository->findByCommentsByVideo($video)], 200, [], ["groups" => "video"]);
+        $tokenValid = $JWTEncoder->decode($request->server->get('HTTP_AUTHORIZATION'));
+        if($tokenValid['username']) {
+            return $this->json("ok");
+        } else {
+            return $this->json($tokenValid);
+        }
     }
 }
