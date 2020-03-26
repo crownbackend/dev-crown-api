@@ -30,6 +30,19 @@ class VideoController extends AbstractController
     }
 
     /**
+     * @Route("/videos/load/more", name="load_video", methods={"POST"})
+     * @param VideoRepository $videoRepository
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function loadVideo(VideoRepository $videoRepository, Request $request): JsonResponse
+    {
+        $date = new \DateTime($request->request->get("date"));
+        return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
+    }
+
+    /**
      * @Route("/last/videos", name="videos_last", methods={"GET"})
      * @param VideoRepository $videoRepository
      * @return JsonResponse

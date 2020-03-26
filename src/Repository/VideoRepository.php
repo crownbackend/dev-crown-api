@@ -23,6 +23,7 @@ class VideoRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder("v")
             ->orderBy("v.publishedAt", "DESC")
+            ->setMaxResults(9)
             ->getQuery()
             ->getResult();
     }
@@ -36,32 +37,15 @@ class VideoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // /**
-    //  * @return Video[] Returns an array of Video objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByLoadMoreVideo($date)
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('v.publishedAt < :date')
+            ->setParameter('date', $date)
+            ->orderBy('v.publishedAt', 'DESC')
+            ->setMaxResults(6)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Video
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

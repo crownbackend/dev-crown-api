@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Technology
 {
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technologies"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,19 +21,19 @@ class Technology
     private $id;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technologies"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @Groups({"videos"})
+     * @Groups({"videos", "technologies"})
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "technologies"})
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
@@ -42,6 +42,11 @@ class Technology
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="technology")
      */
     private $videos;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -116,6 +121,18 @@ class Technology
                 $video->setTechnology(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
