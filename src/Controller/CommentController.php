@@ -101,14 +101,20 @@ class CommentController extends AbstractController
      * @Route("/delete/{id}", name="comment_delete", methods={"DELETE"})
      * @param Request $request
      * @param JWTEncoderInterface $JWTEncoder
+     * @param CommentVideoRepository $commentVideoRepository
+     * @param $id
      * @return JsonResponse
      * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function deleteComment(Request $request, JWTEncoderInterface $JWTEncoder): JsonResponse
+    public function deleteComment($id, Request $request, JWTEncoderInterface $JWTEncoder, CommentVideoRepository $commentVideoRepository): JsonResponse
     {
-        $tokenValid = $JWTEncoder->decode($request->server->get('HTTP_AUTHORIZATION'));
+        $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
         if($tokenValid['username']) {
-            return $this->json("ok");
+            $em =$this->getDoctrine()->getManager();
+            $comment = $commentVideoRepository->findOneBy(["id" => $id]);
+            $em->remove($comment);
+            $em->flush();
+            return $this->json(["comments" => $commentVideoRepository->findByCommentsByVideo($comment->getVideo())], 200, [], ["groups" => "video"]);
         } else {
             return $this->json($tokenValid);
         }

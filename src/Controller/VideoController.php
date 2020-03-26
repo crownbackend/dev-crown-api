@@ -69,14 +69,22 @@ class VideoController extends AbstractController
     }
 
     /**
-     * @Route("/file/{name}", name="download_video")
+     * @Route("/file/{name}/{token}", name="download_video")
      * @param string $name
+     * @param string $token
+     * @param JWTEncoderInterface $JWTEncoder
      * @return Response
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function downloadVideo(string $name): Response
+    public function downloadVideo(string $name, string $token, JWTEncoderInterface $JWTEncoder): Response
     {
-        return $this->render("download/video-download.html.twig", [
-            "name" => $name
-        ]);
+        $tokenValid = $JWTEncoder->decode($token);
+        if($tokenValid) {
+            return $this->render("download/video-download.html.twig", [
+                "name" => $name
+            ]);
+        } else {
+            return $this->redirect($this->getParameter("host_front"));
+        }
     }
 }

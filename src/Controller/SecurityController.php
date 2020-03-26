@@ -48,7 +48,7 @@ class SecurityController extends AbstractController
                 $user->setLastLogin(new \DateTime());
                 $em->persist($user);
                 return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername(),
-                    "connection" => 1], 200);
+                    "userId" => $user->getId()], 200);
             } else if(in_array("ROLE_ADMIN", $user->getRoles())) {
                 $user->setLastLogin(new \DateTime());
                 $em->persist($user);
