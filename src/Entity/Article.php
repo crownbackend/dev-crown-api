@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Article
 {
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,13 +21,13 @@ class Article
     private $id;
 
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Column(type="text")
      */
     private $description;
@@ -38,19 +38,19 @@ class Article
     private $createdAt;
 
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
 
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @Groups({"articles"})
+     * @Groups({"articles", "article"})
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;

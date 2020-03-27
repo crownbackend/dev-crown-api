@@ -33,4 +33,16 @@ class ArticleController extends AbstractController
     {
         return $this->json(["articles" => $articleRepository->findByLastArticles()], 200, [], ["groups" => "articles"]);
     }
+
+    /**
+     * @Route("/article/{slug}/{id}", name="article", methods={"GET"})
+     * @param string $slug
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return JsonResponse
+     */
+    public function article(string $slug, $id, ArticleRepository $articleRepository): JsonResponse
+    {
+        return $this->json($articleRepository->findOneBy(["slug" => $slug, "id" => (int)$id]), 200, [], ["groups" => "article"]);
+    }
 }
