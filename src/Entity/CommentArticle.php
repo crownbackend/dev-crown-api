@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentArticleRepository")
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CommentArticle
 {
     /**
+     * @Groups({"commentArticle"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -17,11 +19,13 @@ class CommentArticle
     private $id;
 
     /**
+     * @Groups({"commentArticle"})
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
+     * @Groups({"commentArticle"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -32,9 +36,16 @@ class CommentArticle
     private $article;
 
     /**
+     * @Groups({"commentArticle"})
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentsArticle")
      */
     private $user;
+
+    /**
+     * @Groups({"commentArticle"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -85,6 +96,18 @@ class CommentArticle
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @Groups({"video"})
+     * @Groups({"video", "commentArticle"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -26,7 +26,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"user","video"})
+     * @Groups({"user", "video", "commentArticle"})
      * @Assert\NotBlank(groups={"user"})
      * @ORM\Column(type="string", length=180, unique=true)
      */

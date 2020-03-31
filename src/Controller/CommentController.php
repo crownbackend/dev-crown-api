@@ -78,7 +78,8 @@ class CommentController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function edit(Request $request, $id, CommentVideoRepository $commentVideoRepository, JWTEncoderInterface $JWTEncoder): JsonResponse
+    public function edit(Request $request, $id, CommentVideoRepository $commentVideoRepository,
+                         JWTEncoderInterface $JWTEncoder): JsonResponse
     {
         $tokenValid = $JWTEncoder->decode($request->request->get("token"));
         if(strlen($request->request->get("content")) < 10) {
@@ -106,7 +107,8 @@ class CommentController extends AbstractController
      * @return JsonResponse
      * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function deleteComment($id, Request $request, JWTEncoderInterface $JWTEncoder, CommentVideoRepository $commentVideoRepository): JsonResponse
+    public function deleteComment($id, Request $request, JWTEncoderInterface $JWTEncoder,
+                                  CommentVideoRepository $commentVideoRepository): JsonResponse
     {
         $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
         if($tokenValid['username']) {

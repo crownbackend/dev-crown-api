@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\CommentArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -19,32 +20,13 @@ class CommentArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, CommentArticle::class);
     }
 
-    // /**
-    //  * @return CommentArticle[] Returns an array of CommentArticle objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByCommentArticle(Article $article)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("ca")
+            ->where("ca.article = :article")
+            ->orderBy("ca.createdAt", "DESC")
+            ->setParameter("article", $article)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CommentArticle
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
