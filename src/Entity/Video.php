@@ -17,7 +17,7 @@ class Video
         2 => "video/mp4"
     ];
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -25,13 +25,13 @@ class Video
     private $id;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\Column(type="text")
      */
     private $description;
@@ -48,19 +48,19 @@ class Video
     private $createdAt;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\Column(type="datetime")
      */
     private $publishedAt;
 
     /**
-     * @Groups({"videos", "lastVideos"})
+     * @Groups({"videos", "lastVideos", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\Column(type="string")
      */
     private $imageFile;
@@ -84,14 +84,14 @@ class Video
     private $comments;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Technology", inversedBy="videos")
      * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $technology;
 
     /**
-     * @Groups({"videos", "lastVideos", "video"})
+     * @Groups({"videos", "lastVideos", "video", "technology"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Playliste", inversedBy="videos")
      * @ORM\JoinColumn(name="playliste_id", referencedColumnName="id", onDelete="SET NULL")
      */

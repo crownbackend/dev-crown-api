@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Technology
 {
     /**
-     * @Groups({"videos", "lastVideos", "video", "technologies"})
+     * @Groups({"videos", "lastVideos", "video", "technologies", "technology"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,19 +21,19 @@ class Technology
     private $id;
 
     /**
-     * @Groups({"videos", "lastVideos", "video", "technologies"})
+     * @Groups({"videos", "lastVideos", "video", "technologies", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @Groups({"videos", "technologies"})
+     * @Groups({"videos", "technologies", "technology"})
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @Groups({"videos", "lastVideos", "technologies"})
+     * @Groups({"videos", "lastVideos", "technologies", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
@@ -44,6 +44,7 @@ class Technology
     private $videos;
 
     /**
+     * @Groups({"videos", "lastVideos", "technologies", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

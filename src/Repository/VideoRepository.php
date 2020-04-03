@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Technology;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -46,6 +47,30 @@ class VideoRepository extends ServiceEntityRepository
             ->setMaxResults(6)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByTechnology(Technology $technology)
+    {
+        return $this->createQueryBuilder("v")
+            ->where("v.technology = :technology")
+            ->orderBy('v.publishedAt', 'DESC')
+            ->setParameter("technology", $technology)
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByLoadMoreTechnologyVideo($date, Technology $technology)
+    {
+        return $this->createQueryBuilder("v")
+            ->where("v.technology = :technology")
+            ->andWhere("v.publishedAt < :date")
+            ->orderBy('v.publishedAt', 'DESC')
+            ->setParameters(["technology" => $technology, "date" => $date])
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult();
+
     }
 
 }

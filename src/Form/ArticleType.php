@@ -22,6 +22,13 @@ class ArticleType extends AbstractType
                     "class" => "form-control"
                 ]
             ])
+            ->add("metaDescription", TextType::class, [
+                "label" => "Description de l'article à ne pas dépasser 50 caractère",
+                "attr" => [
+                    "class" => "form-control",
+                    "maxlength" => "80"
+                ]
+            ])
             ->add('description', TextareaType::class, [
                 "label" => "description",
                 "attr" => [

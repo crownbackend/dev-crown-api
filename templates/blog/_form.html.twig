@@ -5,6 +5,12 @@
 </div>
 
 <div class="form-group">
+    {{ form_label(form.metaDescription) }}
+    {{ form_widget(form.metaDescription) }}
+    {{ form_errors(form.metaDescription) }}
+</div>
+
+<div class="form-group">
     {{ form_label(form.description) }}
     {{ form_widget(form.description) }}
     {{ form_errors(form.description) }}

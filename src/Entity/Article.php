@@ -60,6 +60,12 @@ class Article
      */
     private $comments;
 
+    /**
+     * @Groups({"articles", "article"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $metaDescription;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -170,6 +176,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaDescription(string $metaDescription): self
+    {
+        $this->metaDescription = $metaDescription;
 
         return $this;
     }
