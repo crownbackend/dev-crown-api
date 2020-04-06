@@ -25,13 +25,24 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/last/articles", name="last_articles", methods={"GET"})
+     * @Route("/articles/home", name="articles_last_home", methods={"GET"})
      * @param ArticleRepository $articleRepository
      * @return JsonResponse
      */
-    public function lastArticles(ArticleRepository $articleRepository): JsonResponse
+    public function lastArticlesHome(ArticleRepository $articleRepository): JsonResponse
     {
-        return $this->json(["articles" => $articleRepository->findByLastArticles()], 200, [], ["groups" => "articles"]);
+        return $this->json(["articles" => $articleRepository->findByLastArticlesHome()], 200, [], ["groups" => "articles"]);
+    }
+
+    /**
+     * @Route("/last/articles/{date}", name="last_articles", methods={"GET"})
+     * @param ArticleRepository $articleRepository
+     * @param $date
+     * @return JsonResponse
+     */
+    public function lastArticles(ArticleRepository $articleRepository, $date): JsonResponse
+    {
+        return $this->json($articleRepository->findByLastArticles($date), 200, [], ["groups" => "articles"]);
     }
 
     /**

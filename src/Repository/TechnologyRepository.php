@@ -19,32 +19,21 @@ class TechnologyRepository extends ServiceEntityRepository
         parent::__construct($registry, Technology::class);
     }
 
-    // /**
-    //  * @return Technology[] Returns an array of Technology objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByTechnologies()
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("t")
+            ->orderBy("t.id", "ASC")
+            ->setMaxResults(9)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Technology
+    public function findByLoadMoreTechnologies($id)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder("t")
+            ->where("t.id > :id")
+            ->setParameter("id", $id)
+            ->setMaxResults(6)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

@@ -19,19 +19,31 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findByArticles()
-    {
-        return $this->createQueryBuilder("a")
-            ->orderBy("a.publishedAt", "DESC")
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByLastArticles()
+    public function findByLastArticlesHome()
     {
         return $this->createQueryBuilder("a")
             ->orderBy("a.publishedAt", "DESC")
             ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByArticles()
+    {
+        return $this->createQueryBuilder("a")
+            ->orderBy("a.publishedAt", "DESC")
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByLastArticles($date)
+    {
+        return $this->createQueryBuilder("a")
+            ->where("a.publishedAt < :date")
+            ->orderBy("a.publishedAt", "DESC")
+            ->setParameter("date", $date)
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult();
     }

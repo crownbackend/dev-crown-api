@@ -23,7 +23,8 @@ class TechnologyController extends AbstractController
      */
     public function technologies(TechnologyRepository $technologyRepository): JsonResponse
     {
-        return $this->json(["technologies" => $technologyRepository->findAll()], 200, [], ["groups" => "technologies"]);
+        return $this->json(["technologies" => $technologyRepository->findByTechnologies()],
+            200, [], ["groups" => "technologies"]);
     }
 
     /**
@@ -34,13 +35,26 @@ class TechnologyController extends AbstractController
      * @param VideoRepository $videoRepository
      * @return JsonResponse
      */
-    public function technology($id, string $slug, TechnologyRepository $technologyRepository, VideoRepository $videoRepository): JsonResponse
+    public function technology($id, string $slug, TechnologyRepository $technologyRepository,
+                               VideoRepository $videoRepository): JsonResponse
     {
         $technology = $technologyRepository->findOneBy(["id" => (int)$id, "slug" => $slug]);
         return $this->json([
             "technology" => $technology,
             "videos" => $videoRepository->findByTechnology($technology),
         ], 200, [], ["groups" => "technology"]);
+    }
+
+    /**
+     * @Route("/technologies/load/more/{id}", name="load_last_more_technology", methods={"GET"})
+     * @param $id
+     * @param TechnologyRepository $technologyRepository
+     * @return JsonResponse
+     */
+    public function loadLastMoreTechnologies($id, TechnologyRepository $technologyRepository): JsonResponse
+    {
+        return $this->json($technologyRepository->findByLoadMoreTechnologies($id),
+            200, [], ["groups" => "technology"]);
     }
 
     /**
@@ -57,6 +71,7 @@ class TechnologyController extends AbstractController
     {
         $date = new \DateTime($request->request->get("date"));
         $technology = $technologyRepository->findOneBy(['id' => (int)$id]);
-        return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology), 200, [], ["groups" => "technology"]);
+        return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
+            200, [], ["groups" => "technology"]);
     }
 }
