@@ -19,32 +19,22 @@ class PlaylisteRepository extends ServiceEntityRepository
         parent::__construct($registry, Playliste::class);
     }
 
-    // /**
-    //  * @return Playliste[] Returns an array of Playliste objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByPlaylist()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder("p")
+            ->orderBy("p.id", "DESC")
+            ->setMaxResults(9)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Playliste
+    public function findLoadMorePlaylist($id)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder("p")
+            ->where("p.id < :id")
+            ->orderBy("p.id", "DESC")
+            ->setParameter("id", $id)
+            ->setMaxResults(6)
+            ->getQuery()->getResult();
     }
-    */
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Playliste
 {
     /**
-     * @Groups({"videos", "lastVideos", "video", "technology"})
+     * @Groups({"videos", "lastVideos", "video", "technology", "playlists", "playlist"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,13 +21,13 @@ class Playliste
     private $id;
 
     /**
-     * @Groups({"videos", "lastVideos", "video", "technology"})
+     * @Groups({"videos", "lastVideos", "video", "technology", "playlists", "playlist"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @Groups({"videos"})
+     * @Groups({"videos", "playlists", "playlist"})
      * @ORM\Column(type="text")
      */
     private $description;
@@ -38,6 +38,7 @@ class Playliste
     private $videos;
 
     /**
+     * @Groups({"playlists", "playlist", "videos", "lastVideos", "technology"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

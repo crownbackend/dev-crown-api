@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Playliste;
 use App\Entity\Technology;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -71,6 +72,17 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
+    }
+
+    public function findByPlaylistVideos(Playliste $playlist)
+    {
+        return $this->createQueryBuilder("v")
+            ->where("v.playliste = :playlist")
+            ->orderBy("v.publishedAt", "DESC")
+            ->setParameter("playlist", $playlist)
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult();
     }
 
 }

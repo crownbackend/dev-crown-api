@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Article;
+use App\Entity\Playliste;
 use App\Entity\Technology;
 use App\Entity\Video;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -28,6 +29,7 @@ class SluggerSubscriber implements EventSubscriber
         $this->sluggerVideo('persist', $args);
         $this->sluggerArticle('persist', $args);
         $this->sluggerTechnology('persist', $args);
+        $this->sluggerPlaylist('persist', $args);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -35,6 +37,7 @@ class SluggerSubscriber implements EventSubscriber
         $this->sluggerVideo('update', $args);
         $this->sluggerArticle('update', $args);
         $this->sluggerTechnology('update', $args);
+        $this->sluggerPlaylist('update', $args);
     }
 
     public function sluggerVideo(string $action, LifecycleEventArgs $args)
@@ -54,6 +57,16 @@ class SluggerSubscriber implements EventSubscriber
             return;
         }
         $slug = $this->slugify($entity->getTitle());
+        $entity->setSlug($slug);
+    }
+
+    public function sluggerPlaylist(string $action, LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if(!$entity instanceof Playliste) {
+            return;
+        }
+        $slug = $this->slugify($entity->getName());
         $entity->setSlug($slug);
     }
 
