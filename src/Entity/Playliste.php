@@ -38,7 +38,7 @@ class Playliste
     private $videos;
 
     /**
-     * @Groups({"playlists", "playlist", "videos", "lastVideos", "technology"})
+     * @Groups({"playlists", "playlist", "videos", "lastVideos", "technology", "video"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

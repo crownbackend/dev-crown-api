@@ -6,6 +6,7 @@ use App\Repository\PlaylisteRepository;
 use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -53,5 +54,22 @@ class PlaylistController extends AbstractController
             "playlist" => $playlist,
             "videos" => $videoRepository->findByPlaylistVideos($playlist)
         ], 200, [], ["groups" => "playlist"]);
+    }
+
+    /**
+     * @Route("/playlist/videos/load/more/{id}", name="load_more_playlist_video", methods={"POST"})
+     * @param $id
+     * @param VideoRepository $videoRepository
+     * @param PlaylisteRepository $playlisteRepository
+     * @return JsonResponse
+     */
+    public function loadMorePlaylistVideos($id, VideoRepository $videoRepository,
+                                            PlaylisteRepository $playlisteRepository, Request $request): JsonResponse
+    {
+        $playlist = $playlisteRepository->findOneBy(["id" => $id]);
+        return $this->json(
+            $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
+            200, [], ["groups" => "playlist"]
+        );
     }
 }

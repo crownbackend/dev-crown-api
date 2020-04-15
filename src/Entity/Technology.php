@@ -44,7 +44,7 @@ class Technology
     private $videos;
 
     /**
-     * @Groups({"videos", "lastVideos", "technologies", "technology", "playlist"})
+     * @Groups({"videos", "lastVideos", "technologies", "technology", "playlist", "video"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

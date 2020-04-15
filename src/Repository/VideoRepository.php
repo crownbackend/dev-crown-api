@@ -85,4 +85,17 @@ class VideoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByLoadMorePlaylistVideos($date, Playliste $playlist)
+    {
+        return $this->createQueryBuilder("v")
+            ->where("v.playliste = :playlist")
+            ->andWhere("v.publishedAt < :date")
+            ->orderBy('v.publishedAt', 'DESC')
+            ->setParameters(["playlist" => $playlist, "date" => $date])
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 }
