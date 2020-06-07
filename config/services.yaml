@@ -8,6 +8,7 @@ parameters:
     technology_directory: '%kernel.project_dir%/public/images/technology'
     articles_directory: '%kernel.project_dir%/public/images/articles'
     forum_directory: '%kernel.project_dir%/public/images/forum'
+    avatar_directory: '%kernel.project_dir%/public/images/avatars'
     host_front: '%env(HOST_FRONT)%'
 
 services:

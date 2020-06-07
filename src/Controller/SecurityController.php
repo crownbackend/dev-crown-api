@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Service\FileUploader;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api")
@@ -62,7 +64,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/check/login/verify/token"), name="verify_token", methods={"POST"})
+     * @Route("/check/login/verify/token"), name="verify_token", methods={"GET"})
      * @param Request $request
      * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
@@ -104,5 +106,82 @@ class SecurityController extends AbstractController
     public function logout()
     {
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/profile/{username}", name="user_profile", methods={"GET"})
+     * @param string $username
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    public function profile(string $username, Request $request,
+                            JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
+    {
+        $token = $request->headers->get('authorization');
+        $tokenValid = $JWTEncoder->decode($token);
+        if($tokenValid['username']) {
+            return $this->json($userRepository->findOneBy(["username" => $username]), 200, [], ["groups" => "user"]);
+        } else {
+            return $this->json(["token not valid" => 0], 500);
+        }
+    }
+
+    /**
+     * @Route("/profile/edit/", name="user_edit", methods={"PUT"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
+     * @param FileUploader $fileUploader
+     * @param ValidatorInterface $validator
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+                         JWTEncoderInterface $JWTEncoder, UserRepository $userRepository,
+                         FileUploader $fileUploader, ValidatorInterface $validator): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $token = $request->headers->get('authorization');
+        $tokenValid = $JWTEncoder->decode($token);
+        if($tokenValid['username']) {
+            $user = $userRepository->findOneBy(["username" => $tokenValid['username']]);
+            $user->setUsername($request->request->get("username"));
+            $user->setEmail($request->request->get("email"));
+            $errors = $validator->validate($user, null, ['user']);
+            // check password is good !
+            if($request->request->get('password') !== '') {
+                $res = preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/',
+                    $request->request->get('password'));
+                if($res == 1) {
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $user,
+                            $request->request->get('password')
+                        )
+                    );
+                } else {
+                    return $this->json('Le mot de passe est incorrecte');
+                }
+            }
+            if($request->files->get("avatar")) {
+                $avatarFileName = $fileUploader->upload($request->files->get("avatar"), $user->getAvatar(), "avatar_directory", 1);
+                $user->setAvatar($avatarFileName);
+            }
+            if (count($errors) > 0) {
+                // return error
+                $errorsString = (string) $errors;
+                return $this->json($errorsString);
+            } else {
+                $em->persist($user);
+                $em->flush();
+                return $this->json(["edit" => 1], 200);
+            }
+        } else {
+            return $this->json(["token not valid" => 0], 500);
+        }
     }
 }

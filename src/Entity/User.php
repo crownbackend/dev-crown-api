@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @Groups({"video", "commentArticle"})
+     * @Groups({"video", "commentArticle", "user"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -26,7 +26,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"user", "video", "commentArticle"})
+     * @Groups({"user", "video", "commentArticle", "user"})
      * @Assert\NotBlank(groups={"user"})
      * @ORM\Column(type="string", length=180, unique=true)
      */
@@ -38,15 +38,15 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @Groups("user")
-     * @Assert\NotBlank(groups={"user"})
+     * @Groups("userValid")
+     * @Assert\NotBlank(groups={"userValid"})
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * @Groups("user")
+     * @Groups({"user"})
      * @Assert\NotBlank(groups={"user"})
      * @Assert\Email(groups={"user"})
      * @ORM\Column(type="string", length=255, unique=true)
@@ -89,6 +89,7 @@ class User implements UserInterface
     private $lastLogin;
 
     /**
+     * @Groups({"user", "video", "commentArticle"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
