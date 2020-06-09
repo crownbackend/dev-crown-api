@@ -50,11 +50,13 @@ class SecurityController extends AbstractController
                 $user->setLastLogin(new \DateTime());
                 $em->persist($user);
                 return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername(),
-                    "userId" => $user->getId()], 200);
+                    "userId" => $user->getId(), "email" => $user->getEmail()],
+                    200);
             } else if(in_array("ROLE_ADMIN", $user->getRoles())) {
                 $user->setLastLogin(new \DateTime());
                 $em->persist($user);
-                return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername()],
+                return $this->json(['token' => $JWTTokenManager->create($user), 'user' => $user->getUsername(),
+                    "userId" => $user->getId(), "email" => $user->getEmail()],
                     200);
             }
             $em->flush();
@@ -153,7 +155,7 @@ class SecurityController extends AbstractController
             $user->setEmail($request->request->get("email"));
             $errors = $validator->validate($user, null, ['user']);
             // check password is good !
-            if($request->request->get('password') !== '') {
+            if($request->request->get('password') != "null") {
                 $res = preg_match('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,50}$/',
                     $request->request->get('password'));
                 if($res == 1) {
@@ -173,8 +175,7 @@ class SecurityController extends AbstractController
             }
             if (count($errors) > 0) {
                 // return error
-                $errorsString = (string) $errors;
-                return $this->json($errorsString);
+                return $this->json($errors);
             } else {
                 $em->persist($user);
                 $em->flush();

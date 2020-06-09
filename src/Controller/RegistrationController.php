@@ -162,7 +162,7 @@ class RegistrationController extends AbstractController
     {
         $user = $userRepository->findOneBy(['username' => $username]);
         if($user) {
-            return $this->json(["error" => 1], 200);
+            return $this->json(["error" => 1, "username" => $user->getUsername()], 200);
         } else {
             return $this->json(['good' => 1], 200);
         }
@@ -178,7 +178,7 @@ class RegistrationController extends AbstractController
     {
         $user = $userRepository->findOneBy(['email' => $email]);
         if($user) {
-            return $this->json(["error" => 1], 200);
+            return $this->json(["error" => 1, "email" => $user->getEmail()], 200);
         } else {
             return $this->json(['good' => 1], 200);
         }

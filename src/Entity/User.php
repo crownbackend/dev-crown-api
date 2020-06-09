@@ -27,7 +27,17 @@ class User implements UserInterface
 
     /**
      * @Groups({"user", "video", "commentArticle", "user"})
-     * @Assert\NotBlank(groups={"user"})
+     * @Assert\NotBlank(
+     *     groups={"user"},
+     *     message="Votre pseudo ne doit pas être null"
+     *     )
+     * @Assert\Length(
+     *      groups={"user"},
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre pseudo doit faire minimum {{ limit }} caractères",
+     *      maxMessage = "Votre pseudo doit faire maximum {{ limit }} caractères",
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
@@ -47,8 +57,13 @@ class User implements UserInterface
 
     /**
      * @Groups({"user"})
-     * @Assert\NotBlank(groups={"user"})
-     * @Assert\Email(groups={"user"})
+     * @Assert\NotBlank(
+     *     groups={"user"},
+     *     message="Votre email ne doit pas être null")
+     * @Assert\Email(
+     *     groups={"user"},
+     *     message="Votre email n'est pas valide"
+     *     )
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
