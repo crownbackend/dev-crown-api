@@ -129,6 +129,11 @@ class User implements UserInterface
      */
     private $responses;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Video::class, mappedBy="users")
+     */
+    private $videos;
+
     public function __construct()
     {
         $this->enabled = 0;
@@ -138,6 +143,7 @@ class User implements UserInterface
         $this->commentsArticle = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->responses = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -434,6 +440,34 @@ class User implements UserInterface
         if ($this->responses->contains($response)) {
             $this->responses->removeElement($response);
             $response->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            $video->removeUser($this);
         }
 
         return $this;

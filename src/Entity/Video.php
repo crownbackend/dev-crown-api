@@ -97,10 +97,16 @@ class Video
      */
     private $playliste;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="videos")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -267,6 +273,32 @@ class Video
     public function setPlayliste(?Playliste $playliste): self
     {
         $this->playliste = $playliste;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+        }
 
         return $this;
     }

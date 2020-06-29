@@ -9,7 +9,6 @@
 /vendor/
 /public/videos
 /public/images
-/Data
 ###< symfony/framework-bundle ###
 /.idea
 ###> symfony/phpunit-bridge ###

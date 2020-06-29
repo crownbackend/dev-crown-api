@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Lun 29 Juin 2020 à 12:52
+-- Généré le :  Lun 29 Juin 2020 à 13:19
 -- Version du serveur :  5.7.30-0ubuntu0.18.04.1
 -- Version de PHP :  7.3.19-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `video`
 --
 
-CREATE TABLE `video` (
+CREATE TABLE IF NOT EXISTS `video` (
   `id` int(11) NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
