@@ -24,7 +24,7 @@ class VideoController extends AbstractController
      */
     public function videos(VideoRepository $videoRepository): JsonResponse
     {
-        // teste
+        // teste 123
         return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
     }
 

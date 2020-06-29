@@ -8,7 +8,6 @@
 /var/
 /vendor/
 /public/videos
-/public/img
 /public/images
 /Data
 ###< symfony/framework-bundle ###
