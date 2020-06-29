@@ -77,9 +77,9 @@ class SecurityController extends AbstractController
         $token = $request->headers->get('authorization');
         $tokenValid = $JWTEncoder->decode($token);
         if($tokenValid['username']) {
-            return $this->json(["token valid" => 1], Response::HTTP_OK);
+            return $this->json(["token_valid" => 1], Response::HTTP_OK);
         } else {
-            return $this->json(["token not valid" => 0], Response::HTTP_BAD_REQUEST);
+            return $this->json(["token_not_valid" => 0], Response::HTTP_BAD_REQUEST);
         }
     }
 

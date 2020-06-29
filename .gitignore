@@ -3,14 +3,12 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/.env
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/images/
-/public/videos/
 /var/
 /vendor/
-/database
+/public/videos
+/public/img
 ###< symfony/framework-bundle ###
 /.idea
 ###> symfony/phpunit-bridge ###
