@@ -102,6 +102,13 @@ class Video
      */
     private $users;
 
+    /**
+     * user is favored
+     * @var
+     * @Groups({"videos"})
+     */
+    public $favored;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();

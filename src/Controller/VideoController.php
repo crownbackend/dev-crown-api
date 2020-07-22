@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,35 +21,94 @@ class VideoController extends AbstractController
     /**
      * @Route("/videos", name="videos", methods={"GET"})
      * @param VideoRepository $videoRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function videos(VideoRepository $videoRepository): JsonResponse
+    public function videos(VideoRepository $videoRepository, Request $request,
+                           JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-        // teste 123
-        return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByVideos() as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
+            }
+        } else {
+            return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
+        }
+
     }
 
     /**
      * @Route("/videos/load/more", name="load_video", methods={"POST"})
      * @param VideoRepository $videoRepository
      * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
-     * @throws \Exception
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function loadVideo(VideoRepository $videoRepository, Request $request): JsonResponse
+    public function loadVideo(VideoRepository $videoRepository, Request $request,
+                              JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
         $date = new \DateTime($request->request->get("date"));
-        return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')) as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
+            }
+        } else {
+            return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
+        }
+
     }
 
     /**
      * @Route("/last/videos", name="videos_last", methods={"GET"})
      * @param VideoRepository $videoRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function lastVideos(VideoRepository $videoRepository): JsonResponse
+    public function lastVideos(VideoRepository $videoRepository, Request $request,
+                               JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-        return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "lastVideos"]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByLastVideos() as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "videos"]);
+            }
+        } else {
+            return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "videos"]);
+        }
     }
 
     /**
@@ -98,5 +158,43 @@ class VideoController extends AbstractController
         } else {
             return $this->redirect($this->getParameter("host_front"));
         }
+    }
+
+    /**
+     * @Route("/videos/add/favored", name="video_favored_add", methods={"POST"})
+     * @param Request $request
+     * @param VideoRepository $videoRepository
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function addFavored(Request $request, VideoRepository $videoRepository,
+                               UserRepository $userRepository): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $video = $videoRepository->findOneBy(['id' => $request->request->get('videoId')]);
+        $user  = $userRepository->findOneBy(['id' => $request->request->get('userId')]);
+        $video->addUser($user);
+        $em->persist($video);
+        $em->flush();
+        return $this->json(['success' => 1]);
+    }
+
+    /**
+     * @Route("/videos/remove/favored", name="video_favored_remove", methods={"POST"})
+     * @param Request $request
+     * @param VideoRepository $videoRepository
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function removeFavored(Request $request, VideoRepository $videoRepository,
+                                  UserRepository $userRepository): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $video = $videoRepository->findOneBy(['id' => $request->request->get('videoId')]);
+        $user  = $userRepository->findOneBy(['id' => $request->request->get('userId')]);
+        $video->removeUser($user);
+        $em->persist($video);
+        $em->flush();
+        return $this->json(['success' => 1]);
     }
 }
