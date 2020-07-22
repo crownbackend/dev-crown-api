@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\PlaylisteRepository;
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,33 +45,80 @@ class PlaylistController extends AbstractController
      * @param string $slug
      * @param $id
      * @param PlaylisteRepository $playlisteRepository
+     * @param Request $request
      * @param VideoRepository $videoRepository
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function show(string $slug, $id, PlaylisteRepository $playlisteRepository,
-                         VideoRepository $videoRepository): JsonResponse
+    public function show(string $slug, $id, PlaylisteRepository $playlisteRepository,Request $request,
+                         VideoRepository $videoRepository, JWTEncoderInterface $JWTEncoder,
+                         UserRepository $userRepository): JsonResponse
     {
         $playlist = $playlisteRepository->findOneBy(["slug" => $slug, "id" => (int)$id]);
-        return $this->json([
-            "playlist" => $playlist,
-            "videos" => $videoRepository->findByPlaylistVideos($playlist)
-        ], 200, [], ["groups" => "playlist"]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByPlaylistVideos($playlist) as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json([
+                    "playlist" => $playlist,
+                    "videos" => $videoRepository->findByPlaylistVideos($playlist)
+                ], 200, [], ["groups" => "playlist"]);
+            }
+        } else {
+            return $this->json([
+                "playlist" => $playlist,
+                "videos" => $videoRepository->findByPlaylistVideos($playlist)
+            ], 200, [], ["groups" => "playlist"]);
+        }
     }
 
     /**
      * @Route("/playlist/videos/load/more/{id}", name="load_more_playlist_video", methods={"POST"})
      * @param $id
      * @param VideoRepository $videoRepository
+     * @param UserRepository $userRepository
      * @param PlaylisteRepository $playlisteRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function loadMorePlaylistVideos($id, VideoRepository $videoRepository,
-                                            PlaylisteRepository $playlisteRepository, Request $request): JsonResponse
+    public function loadMorePlaylistVideos($id, VideoRepository $videoRepository, UserRepository $userRepository,
+                                            PlaylisteRepository $playlisteRepository, Request $request,
+                                           JWTEncoderInterface $JWTEncoder): JsonResponse
     {
         $playlist = $playlisteRepository->findOneBy(["id" => $id]);
-        return $this->json(
-            $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
-            200, [], ["groups" => "playlist"]
-        );
+
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist) as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json(
+                    $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
+                    200, [], ["groups" => "playlist"]
+                );
+            }
+        } else {
+            return $this->json(
+                $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
+                200, [], ["groups" => "playlist"]
+            );
+        }
     }
 }

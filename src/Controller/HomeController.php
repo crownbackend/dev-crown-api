@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/031216")
+     * @Route("/031216", name="back-office")
      */
     public function backOffice()
     {

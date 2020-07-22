@@ -46,7 +46,6 @@ class VideoController extends AbstractController
         } else {
             return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
         }
-
     }
 
     /**
@@ -120,7 +119,8 @@ class VideoController extends AbstractController
      */
     public function video($slug, $id, VideoRepository $videoRepository): JsonResponse
     {
-        return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ], 200, [], ["groups" => "video"]);
+        return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ],
+            200, [], ["groups" => "video"]);
     }
 
     /**

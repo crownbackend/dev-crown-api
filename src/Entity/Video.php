@@ -105,7 +105,7 @@ class Video
     /**
      * user is favored
      * @var
-     * @Groups({"videos"})
+     * @Groups({"videos", "technology", "playlist"})
      */
     public $favored;
 

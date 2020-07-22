@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\TechnologyRepository;
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,16 +35,39 @@ class TechnologyController extends AbstractController
      * @param string $slug
      * @param TechnologyRepository $technologyRepository
      * @param VideoRepository $videoRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
     public function technology($id, string $slug, TechnologyRepository $technologyRepository,
-                               VideoRepository $videoRepository): JsonResponse
+                               VideoRepository $videoRepository, Request $request,
+                               JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
         $technology = $technologyRepository->findOneBy(["id" => (int)$id, "slug" => $slug]);
-        return $this->json([
-            "technology" => $technology,
-            "videos" => $videoRepository->findByTechnology($technology),
-        ], 200, [], ["groups" => "technology"]);
+        if($request->headers->get("authorization")) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByTechnology($technology) as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json([
+                    "technology" => $technology,
+                    "videos" => $videoRepository->findByTechnology($technology),
+                ], 200, [], ["groups" => "technology"]);
+            }
+        } else {
+            return $this->json([
+                "technology" => $technology,
+                "videos" => $videoRepository->findByTechnology($technology),
+            ], 200, [], ["groups" => "technology"]);
+        }
     }
 
     /**
@@ -63,15 +88,35 @@ class TechnologyController extends AbstractController
      * @param Request $request
      * @param VideoRepository $videoRepository
      * @param TechnologyRepository $technologyRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
-     * @throws \Exception
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
     public function loadMoreVideoTechnology($id, Request $request, VideoRepository $videoRepository,
-                                            TechnologyRepository $technologyRepository): JsonResponse
+                                            TechnologyRepository $technologyRepository,
+                                            JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
         $date = new \DateTime($request->request->get("date"));
         $technology = $technologyRepository->findOneBy(['id' => (int)$id]);
-        return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
-            200, [], ["groups" => "technology"]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($videoRepository->findByLoadMoreTechnologyVideo($date, $technology) as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
+                    200, [], ["groups" => "technology"]);
+            }
+        } else {
+            return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
+                200, [], ["groups" => "technology"]);
+        }
     }
 }
