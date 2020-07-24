@@ -57,28 +57,8 @@ class PlaylistController extends AbstractController
                          UserRepository $userRepository): JsonResponse
     {
         $playlist = $playlisteRepository->findOneBy(["slug" => $slug, "id" => (int)$id]);
-        if($request->headers->get('authorization')) {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
-            if($tokenValid) {
-                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByPlaylistVideos($playlist) as $video) {
-                    foreach ($video->getUsers() as $user) {
-                        if($user->getId() == $userFav->getId()) {
-                            $video->favored = 1;
-                        }
-                    }
-                }
-                return $this->json([
-                    "playlist" => $playlist,
-                    "videos" => $videoRepository->findByPlaylistVideos($playlist)
-                ], 200, [], ["groups" => "playlist"]);
-            }
-        } else {
-            return $this->json([
-                "playlist" => $playlist,
-                "videos" => $videoRepository->findByPlaylistVideos($playlist)
-            ], 200, [], ["groups" => "playlist"]);
-        }
+        return $this->favoredVideoPlaylist($request, $JWTEncoder, $userRepository,
+            $videoRepository->findByPlaylistVideos($playlist), $playlist);
     }
 
     /**
@@ -97,28 +77,34 @@ class PlaylistController extends AbstractController
                                            JWTEncoderInterface $JWTEncoder): JsonResponse
     {
         $playlist = $playlisteRepository->findOneBy(["id" => $id]);
+        return $this->favoredVideoPlaylist($request, $JWTEncoder, $userRepository,
+            $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist), $playlist);
+    }
 
+    private function favoredVideoPlaylist(Request $request, JWTEncoderInterface $JWTEncoder,
+                                          UserRepository $userRepository, $repository, $playlist)
+    {
         if($request->headers->get('authorization')) {
             $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
             if($tokenValid) {
                 $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist) as $video) {
+                foreach ($repository as $video) {
                     foreach ($video->getUsers() as $user) {
                         if($user->getId() == $userFav->getId()) {
                             $video->favored = 1;
                         }
                     }
                 }
-                return $this->json(
-                    $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
-                    200, [], ["groups" => "playlist"]
-                );
+                return $this->json([
+                    "playlist" => $playlist,
+                    "videos" => $repository
+                ], 200, [], ["groups" => "playlist"]);
             }
         } else {
-            return $this->json(
-                $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist),
-                200, [], ["groups" => "playlist"]
-            );
+            return $this->json([
+                "playlist" => $playlist,
+                "videos" => $repository
+            ], 200, [], ["groups" => "playlist"]);
         }
     }
 }

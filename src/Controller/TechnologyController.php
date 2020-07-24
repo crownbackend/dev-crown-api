@@ -46,28 +46,8 @@ class TechnologyController extends AbstractController
                                JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
         $technology = $technologyRepository->findOneBy(["id" => (int)$id, "slug" => $slug]);
-        if($request->headers->get("authorization")) {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
-            if($tokenValid) {
-                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByTechnology($technology) as $video) {
-                    foreach ($video->getUsers() as $user) {
-                        if($user->getId() == $userFav->getId()) {
-                            $video->favored = 1;
-                        }
-                    }
-                }
-                return $this->json([
-                    "technology" => $technology,
-                    "videos" => $videoRepository->findByTechnology($technology),
-                ], 200, [], ["groups" => "technology"]);
-            }
-        } else {
-            return $this->json([
-                "technology" => $technology,
-                "videos" => $videoRepository->findByTechnology($technology),
-            ], 200, [], ["groups" => "technology"]);
-        }
+        return $this->favoredVideoTechnology($request, $JWTEncoder, $userRepository,
+            $videoRepository->findByTechnology($technology), $technology);
     }
 
     /**
@@ -100,23 +80,34 @@ class TechnologyController extends AbstractController
     {
         $date = new \DateTime($request->request->get("date"));
         $technology = $technologyRepository->findOneBy(['id' => (int)$id]);
-        if($request->headers->get('authorization')) {
+        return $this->favoredVideoTechnology($request, $JWTEncoder, $userRepository,
+            $videoRepository->findByLoadMoreTechnologyVideo($date, $technology), $technology);
+    }
+
+    private function favoredVideoTechnology(Request $request, JWTEncoderInterface $JWTEncoder,
+                                            UserRepository $userRepository, $repository, $technology)
+    {
+        if($request->headers->get("authorization")) {
             $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
             if($tokenValid) {
                 $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByLoadMoreTechnologyVideo($date, $technology) as $video) {
+                foreach ($repository as $video) {
                     foreach ($video->getUsers() as $user) {
                         if($user->getId() == $userFav->getId()) {
                             $video->favored = 1;
                         }
                     }
                 }
-                return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
-                    200, [], ["groups" => "technology"]);
+                return $this->json([
+                    "technology" => $technology,
+                    "videos" => $repository,
+                ], 200, [], ["groups" => "technology"]);
             }
         } else {
-            return $this->json($videoRepository->findByLoadMoreTechnologyVideo($date, $technology),
-                200, [], ["groups" => "technology"]);
+            return $this->json([
+                "technology" => $technology,
+                "videos" => $repository,
+            ], 200, [], ["groups" => "technology"]);
         }
     }
 }

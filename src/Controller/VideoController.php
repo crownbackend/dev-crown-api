@@ -30,22 +30,7 @@ class VideoController extends AbstractController
     public function videos(VideoRepository $videoRepository, Request $request,
                            JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-        if($request->headers->get('authorization')) {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
-            if($tokenValid) {
-                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByVideos() as $video) {
-                    foreach ($video->getUsers() as $user) {
-                        if($user->getId() == $userFav->getId()) {
-                            $video->favored = 1;
-                        }
-                    }
-                }
-                return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
-            }
-        } else {
-            return $this->json(["videos" => $videoRepository->findByVideos()], 200, [], ["groups" => "videos"]);
-        }
+        return $this->videosFavored($request, $JWTEncoder, $userRepository, $videoRepository->findByVideos());
     }
 
     /**
@@ -61,23 +46,8 @@ class VideoController extends AbstractController
                               JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
         $date = new \DateTime($request->request->get("date"));
-        if($request->headers->get('authorization')) {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
-            if($tokenValid) {
-                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')) as $video) {
-                    foreach ($video->getUsers() as $user) {
-                        if($user->getId() == $userFav->getId()) {
-                            $video->favored = 1;
-                        }
-                    }
-                }
-                return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
-            }
-        } else {
-            return $this->json($videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')), 200, [], ["groups" => "videos"]);
-        }
-
+        return $this->videosFavored($request, $JWTEncoder, $userRepository,
+            $videoRepository->findByLoadMoreVideo($date->format('Y-m-d H:i:s')));
     }
 
     /**
@@ -92,22 +62,8 @@ class VideoController extends AbstractController
     public function lastVideos(VideoRepository $videoRepository, Request $request,
                                JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-        if($request->headers->get('authorization')) {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
-            if($tokenValid) {
-                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                foreach ($videoRepository->findByLastVideos() as $video) {
-                    foreach ($video->getUsers() as $user) {
-                        if($user->getId() == $userFav->getId()) {
-                            $video->favored = 1;
-                        }
-                    }
-                }
-                return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "videos"]);
-            }
-        } else {
-            return $this->json(["videos" => $videoRepository->findByLastVideos()], 200, [], ["groups" => "videos"]);
-        }
+
+        return $this->videosFavored($request, $JWTEncoder, $userRepository, $videoRepository->findByLastVideos());
     }
 
     /**
@@ -196,5 +152,34 @@ class VideoController extends AbstractController
         $em->persist($video);
         $em->flush();
         return $this->json(['success' => 1]);
+    }
+
+    /**
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
+     * @param $repository
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    private function videosFavored(Request $request, JWTEncoderInterface $JWTEncoder,
+                                   UserRepository $userRepository, $repository)
+    {
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                foreach ($repository as $video) {
+                    foreach ($video->getUsers() as $user) {
+                        if($user->getId() == $userFav->getId()) {
+                            $video->favored = 1;
+                        }
+                    }
+                }
+                return $this->json(["videos" => $repository], 200, [], ["groups" => "videos"]);
+            }
+        } else {
+            return $this->json(["videos" => $repository], 200, [], ["groups" => "videos"]);
+        }
     }
 }
