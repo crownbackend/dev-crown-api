@@ -71,12 +71,28 @@ class VideoController extends AbstractController
      * @param string $slug
      * @param int $id
      * @param VideoRepository $videoRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function video($slug, $id, VideoRepository $videoRepository): JsonResponse
+    public function video($slug, $id, VideoRepository $videoRepository, Request $request,
+                          JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-        return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ],
-            200, [], ["groups" => "video"]);
+        $video = $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]);
+        if($request->headers->get('authorization')) {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
+                
+                return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ],
+                    200, [], ["groups" => "video"]);
+            }
+        } else {
+            return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ],
+                200, [], ["groups" => "video"]);
+        }
     }
 
     /**
