@@ -85,7 +85,11 @@ class VideoController extends AbstractController
             $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
             if($tokenValid) {
                 $userFav = $userRepository->findOneBy(['username' => $tokenValid['username']]);
-                
+                foreach ($video->getUsers() as $user) {
+                    if($user->getId() == $userFav->getId()) {
+                        $video->favored = 1;
+                    }
+                }
                 return $this->json([ "video" => $videoRepository->findOneBy(["slug" => $slug, "id" => (int)$id]) ],
                     200, [], ["groups" => "video"]);
             }
