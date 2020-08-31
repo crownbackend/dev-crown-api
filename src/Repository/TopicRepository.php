@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Topic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Topic|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,5 +26,14 @@ class TopicRepository extends ServiceEntityRepository
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findBySearch(string $value)
+    {
+        return $this->createQueryBuilder("t")
+            ->where("t.title LIKE :search")
+            ->orWhere("t.description LIKE :search")
+            ->setParameter(':search', "%$value%")
+            ->getQuery()->getResult();
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Topic
 {
     /**
-     * @Groups({"lastTopics"})
+     * @Groups({"lastTopics", "search"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,7 +21,7 @@ class Topic
     private $id;
 
     /**
-     * @Groups({"lastTopics"})
+     * @Groups({"lastTopics", "search"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -42,7 +42,7 @@ class Topic
     private $updatedAt;
 
     /**
-     * @Groups({"lastTopics"})
+     * @Groups({"lastTopics", "search"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
@@ -53,7 +53,7 @@ class Topic
     private $close;
 
     /**
-     * @Groups({"lastTopics"})
+     * @Groups({"lastTopics", "search"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
      */
     private $forum;

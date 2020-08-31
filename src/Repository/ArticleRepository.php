@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -46,5 +46,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->setMaxResults(6)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findBySearch(string $value)
+    {
+        return $this->createQueryBuilder("a")
+            ->where("a.title LIKE :search")
+            ->orWhere("a.description LIKE :search")
+            ->setParameter(':search', "%$value%")
+            ->getQuery()->getResult();
     }
 }

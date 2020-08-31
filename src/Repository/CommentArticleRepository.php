@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use App\Entity\CommentArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method CommentArticle|null find($id, $lockMode = null, $lockVersion = null)

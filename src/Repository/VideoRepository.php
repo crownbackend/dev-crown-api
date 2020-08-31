@@ -6,7 +6,7 @@ use App\Entity\Playliste;
 use App\Entity\Technology;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Video|null find($id, $lockMode = null, $lockVersion = null)
@@ -96,6 +96,15 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function findBySearch(string $value)
+    {
+        return $this->createQueryBuilder("v")
+            ->where("v.title LIKE :search")
+            ->orWhere("v.description LIKE :search")
+            ->setParameter(':search', "%$value%")
+            ->getQuery()->getResult();
     }
 
 }

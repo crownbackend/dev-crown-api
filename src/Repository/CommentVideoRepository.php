@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\CommentVideo;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method CommentVideo|null find($id, $lockMode = null, $lockVersion = null)
