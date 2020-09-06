@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Forum
 {
     /**
+     * @Groups({"forums", "forum"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -20,22 +21,25 @@ class Forum
     private $id;
 
     /**
-     * @Groups({"lastTopics"})
+     * @Groups({"lastTopics", "forums", "forum"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups({"forums", "forum"})
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile;
 
     /**
+     * @Groups({"forums", "forum"})
      * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
     private $topics;
 
     /**
+     * @Groups({"forums", "forum"})
      * @ORM\Column(type="text")
      */
     private $description;
