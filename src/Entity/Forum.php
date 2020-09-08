@@ -33,7 +33,7 @@ class Forum
     private $imageFile;
 
     /**
-     * @Groups({"forums", "forum"})
+     * @Groups({"forums"})
      * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
     private $topics;
@@ -43,6 +43,12 @@ class Forum
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @Groups({"forums", "forum"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -117,6 +123,18 @@ class Forum
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Topic
 {
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,7 +21,7 @@ class Topic
     private $id;
 
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -32,25 +32,25 @@ class Topic
     private $description;
 
     /**
-     * @Groups({"forum"})
+     * @Groups({"forum", "topicsMore"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @Groups({"forum"})
+     * @Groups({"forum", "topicsMore"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
     /**
-     * @Groups({"lastTopics", "search", "forum"})
+     * @Groups({"lastTopics", "search", "forum", "topicsMore"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
 
     /**
-     * @Groups({"forum"})
+     * @Groups({"forum", "topicsMore"})
      * @ORM\Column(type="boolean")
      */
     private $close;
@@ -62,7 +62,7 @@ class Topic
     private $forum;
 
     /**
-     * @Groups({"forums", "forum"})
+     * @Groups({"forums", "forum", "topicsMore"})
      * @ORM\OneToMany(targetEntity="App\Entity\Response", mappedBy="topic")
      */
     private $responses;
@@ -71,6 +71,11 @@ class Topic
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="topics")
      */
     private $likes;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -223,6 +228,18 @@ class Topic
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

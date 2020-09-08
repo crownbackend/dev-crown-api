@@ -15,12 +15,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class TopicController extends AbstractController
 {
     /**
+     * @var TopicRepository
+     */
+    private $topicRepository;
+
+    public function __construct(TopicRepository $topicRepository)
+    {
+        $this->topicRepository = $topicRepository;
+    }
+
+    /**
      * @Route("/last/topics", name="last_topics", methods={"GET"})
-     * @param TopicRepository $topicRepository
      * @return JsonResponse
      */
-    public function topics(TopicRepository $topicRepository): JsonResponse
+    public function topics(): JsonResponse
     {
-        return $this->json(["topics" => $topicRepository->findByLastTopic()], 200, [], ["groups" => "lastTopics"]);
+        return $this->json(["topics" => $this->topicRepository->findByLastTopic()],
+            200, [], ["groups" => "lastTopics"]);
+    }
+
+    /**
+     * @Route("/topics/show/more/{date}/{id}", name="load_topics", methods={"GET"})
+     * @param $date
+     * @param $id
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function topicsShowMore($date, $id): JsonResponse
+    {
+        $d = new \DateTime($date);
+        return $this->json(["topics" => $this->topicRepository->findByLoadMoreTopics($d->format("Y-m-d H:i:s"),
+            $id)], 200, [], ["groups" => "topicsMore"]);
     }
 }

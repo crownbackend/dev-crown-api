@@ -3,8 +3,10 @@
 namespace App\EventListener;
 
 use App\Entity\Article;
+use App\Entity\Forum;
 use App\Entity\Playliste;
 use App\Entity\Technology;
+use App\Entity\Topic;
 use App\Entity\Video;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
@@ -30,6 +32,8 @@ class SluggerSubscriber implements EventSubscriber
         $this->sluggerArticle('persist', $args);
         $this->sluggerTechnology('persist', $args);
         $this->sluggerPlaylist('persist', $args);
+        $this->sluggerForum('persist', $args);
+        $this->sluggerTopic('persist', $args);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -38,6 +42,8 @@ class SluggerSubscriber implements EventSubscriber
         $this->sluggerArticle('update', $args);
         $this->sluggerTechnology('update', $args);
         $this->sluggerPlaylist('update', $args);
+        $this->sluggerForum('update', $args);
+        $this->sluggerTopic('update', $args);
     }
 
     public function sluggerVideo(string $action, LifecycleEventArgs $args)
@@ -77,6 +83,26 @@ class SluggerSubscriber implements EventSubscriber
             return;
         }
         $slug = $this->slugify($entity->getName());
+        $entity->setSlug($slug);
+    }
+
+    public function sluggerForum(string $action, LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if(!$entity instanceof Forum) {
+            return;
+        }
+        $slug = $this->slugify($entity->getName());
+        $entity->setSlug($slug);
+    }
+
+    public function sluggerTopic(string $action, LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if(!$entity instanceof Topic) {
+            return;
+        }
+        $slug = $this->slugify($entity->getTitle());
         $entity->setSlug($slug);
     }
 

@@ -29,11 +29,12 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 100; $i++) {
             $topic = new Topic();
             $topic->setForum($forum);
-            $topic->setTitle($faker->name);
+            $topic->setTitle($faker->realText(200, 2));
             $topic->setDescription($faker->text);
             $topic->setClose(0);
             $topic->setResolve($faker->boolean);
             $topic->setCreatedAt($faker->dateTime);
+            $manager->persist($topic);
         }
 
         $manager->flush();

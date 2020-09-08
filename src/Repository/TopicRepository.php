@@ -36,4 +36,25 @@ class TopicRepository extends ServiceEntityRepository
             ->setParameter(':search', "%$value%")
             ->getQuery()->getResult();
     }
+
+    public function findByForumTopics($id)
+    {
+        return $this->createQueryBuilder("t")
+            ->where("t.forum = :id")
+            ->orderBy("t.createdAt", "DESC")
+            ->setParameter("id", $id)
+            ->setMaxResults(10)
+            ->getQuery()->getResult();
+    }
+
+    public function findByLoadMoreTopics($date, $id)
+    {
+        return $this->createQueryBuilder("t")
+            ->where("t.forum = :id")
+            ->andWhere("t.createdAt < :date ")
+            ->orderBy("t.createdAt", "DESC")
+            ->setParameters(["date" => $date, "id" => $id])
+            ->setMaxResults(10)
+            ->getQuery()->getResult();
+    }
 }
