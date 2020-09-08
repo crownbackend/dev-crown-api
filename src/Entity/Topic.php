@@ -73,6 +73,7 @@ class Topic
     private $likes;
 
     /**
+     * @Groups({"forum", "topicsMore"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
