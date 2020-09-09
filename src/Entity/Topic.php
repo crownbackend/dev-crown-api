@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Topic
 {
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,48 +21,49 @@ class Topic
     private $id;
 
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"topic"})
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @Groups({"forum", "topicsMore"})
+     * @Groups({"forum", "topicsMore", "topic"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @Groups({"forum", "topicsMore"})
+     * @Groups({"forum", "topicsMore", "topic"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
     /**
-     * @Groups({"lastTopics", "search", "forum", "topicsMore"})
+     * @Groups({"lastTopics", "search", "forum", "topicsMore", "topic"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
 
     /**
-     * @Groups({"forum", "topicsMore"})
+     * @Groups({"forum", "topicsMore", "topic"})
      * @ORM\Column(type="boolean")
      */
     private $close;
 
     /**
-     * @Groups({"lastTopics", "search"})
+     * @Groups({"lastTopics", "search", "topic"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
      */
     private $forum;
 
     /**
-     * @Groups({"forums", "forum", "topicsMore"})
+     * @Groups({"forums", "forum", "topicsMore", "topic"})
      * @ORM\OneToMany(targetEntity="App\Entity\Response", mappedBy="topic")
      */
     private $responses;
@@ -73,10 +74,16 @@ class Topic
     private $likes;
 
     /**
-     * @Groups({"forum", "topicsMore"})
+     * @Groups({"forums", "forum", "topicsMore", "topic"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @Groups({"topic"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="topicsUsers")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -241,6 +248,18 @@ class Topic
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

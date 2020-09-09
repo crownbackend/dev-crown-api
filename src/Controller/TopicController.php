@@ -25,6 +25,18 @@ class TopicController extends AbstractController
     }
 
     /**
+     * @Route("/topic/{id}/{slug}", name="topic", methods={"GET"})
+     * @param $slug
+     * @param $id
+     * @return JsonResponse
+     */
+    public function topic($slug, $id): JsonResponse
+    {
+        return $this->json(["topic" => $this->topicRepository->findOneBy(["id" => $id, "slug" => $slug])],
+            200, [], ["groups" => "topic"]);
+    }
+
+    /**
      * @Route("/last/topics", name="last_topics", methods={"GET"})
      * @return JsonResponse
      */

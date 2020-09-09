@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Response
 {
     /**
-     * @Groups({"forums", "forum", "topicsMore"})
+     * @Groups({"forums", "forum", "topicsMore", "topic"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,14 +21,16 @@ class Response
     private $id;
 
     /**
+     * @Groups({"topic"})
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
+     * @Groups({"topic"})
      * @ORM\Column(type="datetime")
      */
-    private $createsAt;
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topic", inversedBy="responses")
@@ -39,6 +41,17 @@ class Response
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="responses")
      */
     private $likes;
+
+    /**
+     * @Groups({"topic", "forum"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="responsesUsers")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $resolve;
 
     public function __construct()
     {
@@ -62,14 +75,14 @@ class Response
         return $this;
     }
 
-    public function getCreatesAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createsAt;
+        return $this->createdAt;
     }
 
-    public function setCreatesAt(\DateTimeInterface $createsAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->createsAt = $createsAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -108,6 +121,30 @@ class Response
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getResolve(): ?bool
+    {
+        return $this->resolve;
+    }
+
+    public function setResolve(bool $resolve): self
+    {
+        $this->resolve = $resolve;
 
         return $this;
     }

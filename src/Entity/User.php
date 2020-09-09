@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @Groups({"video", "commentArticle", "user"})
+     * @Groups({"video", "commentArticle", "user", "forum"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -26,7 +26,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"user", "video", "commentArticle", "user"})
+     * @Groups({"user", "video", "commentArticle", "topic", "forum"})
      * @Assert\NotBlank(
      *     groups={"user"},
      *     message="Votre pseudo ne doit pas être null"
@@ -104,7 +104,7 @@ class User implements UserInterface
     private $lastLogin;
 
     /**
-     * @Groups({"user", "video", "commentArticle"})
+     * @Groups({"user", "video", "commentArticle", "topic"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -134,6 +134,16 @@ class User implements UserInterface
      */
     private $videos;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Topic::class, mappedBy="user")
+     */
+    private $topicsUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="user")
+     */
+    private $responsesUsers;
+
     public function __construct()
     {
         $this->enabled = 0;
@@ -144,6 +154,8 @@ class User implements UserInterface
         $this->topics = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->videos = new ArrayCollection();
+        $this->topicsUsers = new ArrayCollection();
+        $this->responsesUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -468,6 +480,68 @@ class User implements UserInterface
         if ($this->videos->contains($video)) {
             $this->videos->removeElement($video);
             $video->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopicsUsers(): Collection
+    {
+        return $this->topicsUsers;
+    }
+
+    public function addTopicsUser(Topic $topicsUser): self
+    {
+        if (!$this->topicsUsers->contains($topicsUser)) {
+            $this->topicsUsers[] = $topicsUser;
+            $topicsUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicsUser(Topic $topicsUser): self
+    {
+        if ($this->topicsUsers->contains($topicsUser)) {
+            $this->topicsUsers->removeElement($topicsUser);
+            // set the owning side to null (unless already changed)
+            if ($topicsUser->getUser() === $this) {
+                $topicsUser->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponsesUsers(): Collection
+    {
+        return $this->responsesUsers;
+    }
+
+    public function addResponsesUser(Response $responsesUser): self
+    {
+        if (!$this->responsesUsers->contains($responsesUser)) {
+            $this->responsesUsers[] = $responsesUser;
+            $responsesUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponsesUser(Response $responsesUser): self
+    {
+        if ($this->responsesUsers->contains($responsesUser)) {
+            $this->responsesUsers->removeElement($responsesUser);
+            // set the owning side to null (unless already changed)
+            if ($responsesUser->getUser() === $this) {
+                $responsesUser->setUser(null);
+            }
         }
 
         return $this;
