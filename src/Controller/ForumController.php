@@ -53,4 +53,13 @@ class ForumController extends AbstractController
             "topics" => $this->topicRepository->findByForumTopics($id)],
             200, [], ["groups" => "forum"]);
     }
+
+    /**
+     * @Route("/forums/category/list", name="forum_category_list", methods={"GET"})
+     * @return JsonResponse
+     */
+    public function forumCategoryList(): JsonResponse
+    {
+        return $this->json($this->forumRepository->findAll(), 200, [], ["groups" => "forumList"]);
+    }
 }
