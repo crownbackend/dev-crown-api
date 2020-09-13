@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\TopicRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -58,5 +59,15 @@ class TopicController extends AbstractController
         $d = new \DateTime($date);
         return $this->json(["topics" => $this->topicRepository->findByLoadMoreTopics($d->format("Y-m-d H:i:s"),
             $id)], 200, [], ["groups" => "topicsMore"]);
+    }
+
+    /**
+     * @Route("/topic/new", name="add_topic", methods={"POST"})
+     * @return JsonResponse
+     */
+    public function addTopic(Request $request): JsonResponse
+    {
+
+        return $this->json($request->request);
     }
 }
