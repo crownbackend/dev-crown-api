@@ -9,6 +9,7 @@ parameters:
     articles_directory: '%kernel.project_dir%/public/images/articles'
     forum_directory: '%kernel.project_dir%/public/images/forum'
     avatar_directory: '%kernel.project_dir%/public/images/avatars'
+    topic_directory: '%kernel.project_dir%/public/images/topics'
     host_front: '%env(HOST_FRONT)%'
 
 services:
