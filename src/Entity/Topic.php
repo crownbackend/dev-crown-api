@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
@@ -21,12 +22,22 @@ class Topic
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min="5",
+     *     max="255"
+     * )
      * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min="50",
+     *     minMessage = "Votre text doit contenir minomum {{ limit }} caractères",
+     * )
      * @Groups({"topic"})
      * @ORM\Column(type="text")
      */

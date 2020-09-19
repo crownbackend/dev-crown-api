@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Topic;
+use App\Repository\ForumRepository;
 use App\Repository\TopicRepository;
+use App\Repository\UserRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api")
@@ -19,10 +24,21 @@ class TopicController extends AbstractController
      * @var TopicRepository
      */
     private $topicRepository;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var ForumRepository
+     */
+    private $forumRepository;
 
-    public function __construct(TopicRepository $topicRepository)
+    public function __construct(TopicRepository $topicRepository, UserRepository $userRepository,
+                                ForumRepository $forumRepository)
     {
         $this->topicRepository = $topicRepository;
+        $this->userRepository = $userRepository;
+        $this->forumRepository = $forumRepository;
     }
 
     /**
@@ -63,11 +79,40 @@ class TopicController extends AbstractController
 
     /**
      * @Route("/topic/new", name="add_topic", methods={"POST"})
+     * @param Request $request
+     * @param ValidatorInterface $validator
+     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function addTopic(Request $request): JsonResponse
+    public function addTopic(Request $request, ValidatorInterface $validator,
+                             JWTEncoderInterface $JWTEncoder): JsonResponse
     {
-
-        return $this->json($request->request);
+        if($request->headers->get('authorization'))  {
+            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            if($tokenValid) {
+                $em = $this->getDoctrine()->getManager();
+                $user = $this->userRepository->findOneBy(["id" => (int)$request->request->get('userId')]);
+                $forum = $this->forumRepository->findOneBy(["id" => $request->request->get("forum")]);
+                $topic = new Topic();
+                $topic->setTitle($request->request->get("title"));
+                $topic->setDescription($request->request->get("description"));
+                $topic->setUser($user);
+                $topic->setForum($forum);
+                $errors = $validator->validate($topic);
+                if (count($errors) > 0) {
+                    $errorsString = (string) $errors;
+                    return $this->json($errorsString);
+                }
+                $em->persist($topic);
+                $em->flush();
+                return $this->json([
+                    "success" => 1, "topicId" => $topic->getId(),
+                    "slug" => $topic->getSlug()
+                ]);
+            }
+        } else {
+            return $this->json(["error" => 0]);
+        }
     }
 }
