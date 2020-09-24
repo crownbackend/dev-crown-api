@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Topic
 {
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic", "editTopic"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")

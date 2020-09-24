@@ -32,13 +32,24 @@ class TopicController extends AbstractController
      * @var ForumRepository
      */
     private $forumRepository;
+    /**
+     * @var JWTEncoderInterface
+     */
+    private $JWTEncoder;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
 
     public function __construct(TopicRepository $topicRepository, UserRepository $userRepository,
-                                ForumRepository $forumRepository)
+                                ForumRepository $forumRepository, JWTEncoderInterface $JWTEncoder,
+                                ValidatorInterface $validator)
     {
         $this->topicRepository = $topicRepository;
         $this->userRepository = $userRepository;
         $this->forumRepository = $forumRepository;
+        $this->JWTEncoder = $JWTEncoder;
+        $this->validator = $validator;
     }
 
     /**
@@ -80,16 +91,13 @@ class TopicController extends AbstractController
     /**
      * @Route("/topic/new", name="add_topic", methods={"POST"})
      * @param Request $request
-     * @param ValidatorInterface $validator
-     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
      * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function addTopic(Request $request, ValidatorInterface $validator,
-                             JWTEncoderInterface $JWTEncoder): JsonResponse
+    public function addTopic(Request $request): JsonResponse
     {
         if($request->headers->get('authorization'))  {
-            $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
+            $tokenValid = $this->JWTEncoder->decode($request->headers->get('authorization'));
             if($tokenValid) {
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->userRepository->findOneBy(["id" => (int)$request->request->get('userId')]);
@@ -99,10 +107,10 @@ class TopicController extends AbstractController
                 $topic->setDescription($request->request->get("description"));
                 $topic->setUser($user);
                 $topic->setForum($forum);
-                $errors = $validator->validate($topic);
+                $errors = $this->validator->validate($topic);
                 if (count($errors) > 0) {
                     $errorsString = (string) $errors;
-                    return $this->json($errorsString);
+                    return $this->json(["error" => $errorsString]);
                 }
                 $em->persist($topic);
                 $em->flush();
@@ -113,6 +121,54 @@ class TopicController extends AbstractController
             }
         } else {
             return $this->json(["error" => 0]);
+        }
+    }
+
+    /**
+     * @Route("/topic/edit/{id}", name="edit_topic", methods={"PUT"})
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    public function editTopic(Request $request, $id)
+    {
+        if($request->headers->get('authorization')) {
+            $tokenValid = $this->JWTEncoder->decode($request->headers->get('authorization'));
+            if ($tokenValid) {
+                $close = $request->request->get("close");
+                $resolve = $request->request->get("resolve");
+                $em = $this->getDoctrine()->getManager();
+                $forum = $this->forumRepository->findOneBy(["id" => $request->request->get("forum")]);
+                $topic = $this->topicRepository->findOneBy(["id" => $id]);
+                $topic->setTitle($request->request->get("title"));
+                $topic->setDescription($request->request->get("description"));
+                if($close == "true") {
+                    $topic->setClose(true);
+                } else {
+                    $topic->setClose(false);
+                }
+                if($resolve == "true") {
+                    $topic->setResolve(true);
+                } else {
+                    $topic->setResolve(false);
+                }
+                $topic->setForum($forum);
+                $topic->setUpdatedAt(new \DateTime());
+                $errors = $this->validator->validate($topic);
+                if (count($errors) > 0) {
+                    $errorsString = (string) $errors;
+                    return $this->json(["error" => $errorsString]);
+                }
+                $em->persist($topic);
+                $em->flush();
+                return $this->json([
+                    "success" => 1, "topicId" => $topic->getId(),
+                    "slug" => $topic->getSlug()
+                ]);
+            }
+        } else {
+            return $this->json( ["error" => 1]);
         }
     }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @Groups({"video", "commentArticle", "user", "forum"})
+     * @Groups({"video", "commentArticle", "user", "forum", "topic"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
