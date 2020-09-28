@@ -120,7 +120,7 @@ class TopicController extends AbstractController
                 ]);
             }
         } else {
-            return $this->json(["error" => 0]);
+            return $this->json(["error" => 0], 400);
         }
     }
 
@@ -168,7 +168,31 @@ class TopicController extends AbstractController
                 ]);
             }
         } else {
-            return $this->json( ["error" => 1]);
+            return $this->json( ["error" => 1], 400);
         }
+    }
+
+    /**
+     * @Route("/topic/delete/{id}", name="delete_topic", methods={"DELETE"})
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    public function deleteTopic($id, Request $request): JsonResponse
+    {
+        if($request->headers->get('authorization')) {
+            $tokenValid = $this->JWTEncoder->decode($request->headers->get('authorization'));
+            if ($tokenValid) {
+                $topic = $this->topicRepository->findOneBy(["id" => $id]);
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($topic);
+                $em->flush();
+                return $this->json(["success" => 1]);
+            }
+        } else {
+            return $this->json( ["error" => 1], 400);
+        }
+
     }
 }

@@ -75,7 +75,7 @@ class Topic
 
     /**
      * @Groups({"forums", "forum", "topicsMore", "topic"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Response", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="App\Entity\Response", mappedBy="topic", cascade={"remove"})
      */
     private $responses;
 
@@ -85,7 +85,7 @@ class Topic
     private $likes;
 
     /**
-     * @Groups({"forums", "forum", "topicsMore", "topic"})
+     * @Groups({"forums", "forum", "topicsMore", "topic", "lastTopics", "search"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
