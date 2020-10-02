@@ -64,7 +64,7 @@ class RegistrationController extends AbstractController
 
             if($user->getConfirmationToken()) {
                 $mailer->sendMail("Mail de confirmation", $user->getEmail(),
-                    $user->getUsername(), $user->getConfirmationToken());
+                    $user->getUsername(), $user->getConfirmationToken(), 'registration');
             }
 
             return  $this->json(['created' => 1], 201, [], ["groups" => "user"]);
@@ -110,7 +110,8 @@ class RegistrationController extends AbstractController
             $user->setTokenPasswordCreatedAt(new \DateTime());
             $em->persist($user);
             $em->flush();
-            $mailer->sendToken("Mot de passe oublié", $user->getEmail(), $user->getUsername(), $user->getTokenPassword());
+            $mailer->sendMail("Mot de passe oublié", $user->getEmail(),
+                $user->getUsername(), $user->getTokenPassword(), 'forgoutPassword');
             return $this->json(['success' => 1]);
         } else {
             return $this->json(['error' => 1]);

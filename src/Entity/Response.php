@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResponseRepository")
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Response
 {
     /**
-     * @Groups({"forums", "forum", "topicsMore", "topic"})
+     * @Groups({"forums", "forum", "topicsMore", "topic", "addResponse"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,13 +22,18 @@ class Response
     private $id;
 
     /**
-     * @Groups({"topic"})
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min="50",
+     *     minMessage = "Votre text doit contenir minimum {{ limit }} caractères",
+     * )
+     * @Groups({"topic", "addResponse"})
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
-     * @Groups({"topic"})
+     * @Groups({"topic", "addResponse"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -43,7 +49,7 @@ class Response
     private $likes;
 
     /**
-     * @Groups({"topic", "forum"})
+     * @Groups({"topic", "forum", "addResponse"})
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="responsesUsers")
      */
     private $user;
@@ -56,6 +62,8 @@ class Response
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->resolve = 0;
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int

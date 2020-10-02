@@ -36,7 +36,7 @@ class Topic
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min="50",
-     *     minMessage = "Votre text doit contenir minomum {{ limit }} caractères",
+     *     minMessage = "Votre text doit contenir minimum {{ limit }} caractères",
      * )
      * @Groups({"topic"})
      * @ORM\Column(type="text")

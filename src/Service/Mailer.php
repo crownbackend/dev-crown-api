@@ -16,7 +16,7 @@ class Mailer extends AbstractController
         $this->mailer = $mailer;
     }
 
-    public function sendMail($subject, $email, $username, $token)
+    public function sendMail($subject, $email, $username, $token, $template)
     {
         $message = (new \Swift_Message($subject))
             ->setFrom("registration@dev-crown.com")
@@ -24,7 +24,7 @@ class Mailer extends AbstractController
             ->setBody(
                 $this->renderView(
                 // templates/emails/registration.html.twig
-                    'emails/registration.html.twig',
+                    'emails/'.$template.'.html.twig',
                     [
                         'username' => $username,
                         "token" => $token
@@ -36,17 +36,16 @@ class Mailer extends AbstractController
         return $this->mailer->send($message);
     }
 
-    public function sendToken($subject, $email, $username, $token)
+    public function sendMailResponse($subject, $email, $username)
     {
         $message = (new \Swift_Message($subject))
-            ->setFrom("registration@dev-crown.com")
+            ->setFrom("forum@dev-crown.com")
             ->setTo($email)
             ->setBody(
                 $this->renderView(
-                    'emails/forgoutPassword.html.twig',
+                    'emails/response.html.twig',
                     [
-                        'username' => $username,
-                        "token" => $token
+                        'username' => $username
                     ]
                 ),
                 'text/html'
