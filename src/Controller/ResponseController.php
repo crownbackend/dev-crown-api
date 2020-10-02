@@ -80,7 +80,8 @@ class ResponseController extends AbstractController
                 $em->persist($response);
                 $em->flush();
                 $mailer->sendMailResponse($topic->getTitle(), $topic->getUser()->getEmail(),
-                    $topic->getUser()->getUsername());
+                    $topic->getUser()->getUsername(), $topic->getTitle(), $response->getContent(), $topic->getId(),
+                    $topic->getSlug());
                 $responses = $this->responseRepository->findResponseByTopic($topic);
                 return $this->json(["responses" =>$responses], 200, [], ["groups" => "addResponse"]);
             }

@@ -36,7 +36,7 @@ class Mailer extends AbstractController
         return $this->mailer->send($message);
     }
 
-    public function sendMailResponse($subject, $email, $username)
+    public function sendMailResponse($subject, $email, $username, $subjectForum, $content, $id, $slug)
     {
         $message = (new \Swift_Message($subject))
             ->setFrom("forum@dev-crown.com")
@@ -45,7 +45,11 @@ class Mailer extends AbstractController
                 $this->renderView(
                     'emails/response.html.twig',
                     [
-                        'username' => $username
+                        'username' => $username,
+                        "subjectForum" => $subjectForum,
+                        "content" => $content,
+                        "id" => $id,
+                        "slug" => $slug
                     ]
                 ),
                 'text/html'
