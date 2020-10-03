@@ -81,6 +81,15 @@ class PlaylistController extends AbstractController
             $videoRepository->findByLoadMorePlaylistVideos($request->request->get("date"), $playlist), $playlist);
     }
 
+    /**
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param UserRepository $userRepository
+     * @param $repository
+     * @param $playlist
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
     private function favoredVideoPlaylist(Request $request, JWTEncoderInterface $JWTEncoder,
                                           UserRepository $userRepository, $repository, $playlist)
     {

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Response
 {
     /**
-     * @Groups({"forums", "forum", "topicsMore", "topic", "addResponse"})
+     * @Groups({"forums", "forum", "topicsMore", "topic", "addResponse", "editResponse"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -27,13 +27,13 @@ class Response
      *     min="50",
      *     minMessage = "Votre text doit contenir minimum {{ limit }} caractères",
      * )
-     * @Groups({"topic", "addResponse"})
+     * @Groups({"topic", "addResponse", "editResponse"})
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
-     * @Groups({"topic", "addResponse"})
+     * @Groups({"topic", "addResponse", "editResponse"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -49,15 +49,22 @@ class Response
     private $likes;
 
     /**
-     * @Groups({"topic", "forum", "addResponse"})
+     * @Groups({"topic", "forum", "addResponse", "editResponse"})
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="responsesUsers")
      */
     private $user;
 
     /**
+     * @Groups({"topic", "addResponse", "editResponse"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
+
+    /**
+     * @Groups({"editResponse", "topic"})
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -153,6 +160,18 @@ class Response
     public function setResolve(bool $resolve): self
     {
         $this->resolve = $resolve;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

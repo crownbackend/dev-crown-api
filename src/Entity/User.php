@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @Groups({"video", "commentArticle", "user", "forum", "topic", "addResponse"})
+     * @Groups({"video", "commentArticle", "user", "forum", "topic", "addResponse", "editResponse"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -26,7 +26,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"user", "video", "commentArticle", "topic", "forum", "addResponse"})
+     * @Groups({"user", "video", "commentArticle", "topic", "forum", "addResponse", "editResponse"})
      * @Assert\NotBlank(
      *     groups={"user"},
      *     message="Votre pseudo ne doit pas être null"
@@ -104,7 +104,7 @@ class User implements UserInterface
     private $lastLogin;
 
     /**
-     * @Groups({"user", "video", "commentArticle", "topic", "addResponse"})
+     * @Groups({"user", "video", "commentArticle", "topic", "addResponse", "editResponse"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
