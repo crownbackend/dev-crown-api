@@ -107,4 +107,13 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findVideoByUser($id)
+    {
+        return $this->createQueryBuilder("v")
+            ->join("v.users", "u")
+            ->where("u.id = :id")
+            ->setParameter("id", $id)
+            ->getQuery()->getResult();
+    }
+
 }

@@ -153,6 +153,7 @@ class User implements UserInterface
     {
         $this->enabled = 0;
         $this->createdAt = new \DateTime();
+        $this->avatar = "avatar-default.png";
         $this->roles = ["ROLE_USER"];
         $this->commentsVideo = new ArrayCollection();
         $this->commentsArticle = new ArrayCollection();

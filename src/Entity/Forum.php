@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Forum
 {
     /**
-     * @Groups({"forums", "forum", "forumList", "topic", "lastTopics", "search"})
+     * @Groups({"forums", "forum", "forumList", "topic", "lastTopics", "search", "profileTopics"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,7 +21,7 @@ class Forum
     private $id;
 
     /**
-     * @Groups({"lastTopics", "forums", "forum", "forumList", "search"})
+     * @Groups({"lastTopics", "forums", "forum", "forumList", "search", "profileTopics"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -45,7 +45,7 @@ class Forum
     private $description;
 
     /**
-     * @Groups({"forums", "forum", "lastTopics", "search"})
+     * @Groups({"forums", "forum", "lastTopics", "search", "profileTopics"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

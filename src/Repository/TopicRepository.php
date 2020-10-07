@@ -57,4 +57,13 @@ class TopicRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()->getResult();
     }
+
+    public function findTopicsResponsesByUser($user)
+    {
+        return $this->createQueryBuilder("t")
+            ->join("t.responses", "responses")
+            ->where("responses.user = :user")
+            ->setParameter("user", $user)
+            ->getQuery()->getResult();
+    }
 }

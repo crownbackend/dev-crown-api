@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Topic
 {
     /**
-     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic", "editTopic"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic", "editTopic", "profileTopics"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -27,7 +27,7 @@ class Topic
      *     min="5",
      *     max="255"
      * )
-     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic"})
+     * @Groups({"lastTopics", "search", "forums", "forum", "topicsMore", "topic", "profileTopics"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -56,7 +56,7 @@ class Topic
     private $updatedAt;
 
     /**
-     * @Groups({"lastTopics", "search", "forum", "topicsMore", "topic"})
+     * @Groups({"lastTopics", "search", "forum", "topicsMore", "topic", "profileTopics"})
      * @ORM\Column(type="boolean")
      */
     private $resolve;
@@ -68,7 +68,7 @@ class Topic
     private $close;
 
     /**
-     * @Groups({"lastTopics", "search", "topic"})
+     * @Groups({"lastTopics", "search", "topic", "profileTopics"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum", inversedBy="topics")
      */
     private $forum;
@@ -85,7 +85,7 @@ class Topic
     private $likes;
 
     /**
-     * @Groups({"forums", "forum", "topicsMore", "topic", "lastTopics", "search"})
+     * @Groups({"forums", "forum", "topicsMore", "topic", "lastTopics", "search", "profileTopics"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
