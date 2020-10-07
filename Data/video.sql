@@ -2,10 +2,10 @@
 -- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : mar. 08 sep. 2020 à 20:07
--- Version du serveur :  8.0.21-0ubuntu0.20.04.4
--- Version de PHP : 7.4.8
+-- Host: localhost:3306
+-- Generation Time: Oct 07, 2020 at 09:03 PM
+-- Server version: 8.0.21-0ubuntu0.20.04.4
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `dev-crown-api`
+-- Database: `dev-crown-api`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `video`
+-- Table structure for table `video`
 --
 
 CREATE TABLE IF NOT EXISTS `video` (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `video` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `video`
+-- Dumping data for table `video`
 --
 
 INSERT INTO `video` (`id`, `technology_id`, `playliste_id`, `title`, `description`, `video_url`, `created_at`, `published_at`, `slug`, `image_file`, `name_file_video`, `type_video`) VALUES
@@ -56,9 +56,9 @@ INSERT INTO `video` (`id`, `technology_id`, `playliste_id`, `title`, `descriptio
 (10, 4, 2, 'Symfony 5 - Page HTML et variable', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment afficher une page html, lui affecte du css et du js et envoyer une variable depuis le controller. Bonne vid&eacute;o ! Site web : https://dev-crown.com/ Soutenir la cha&icirc;ne : https://utip.io/devcrown</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/7mlAz7MZtl8\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-19 19:42:36', '2020-02-26 10:00:00', 'symfony-5-page-html-et-variable', 'symfony5htmlvar-5ef9c4f8295cb.png', 'symfony_page_html_variable', 1),
 (11, 4, 2, 'Symfony 5 -  Boucle et condition', '<p>Bonjour &agrave; tous dans cette vid&eacute;o on continue notre exploration de twig Bonne vid&eacute;o SIte web : https://dev-crown.com/ Soutenir la cha&icirc;ne : https://utip.io/devcrown</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/tjitvDhsKDo\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-19 19:44:53', '2020-02-26 10:00:00', 'symfony-5-boucle-et-condition', 'symfony5boucle-5ef9c4ed7ad26.png', 'symfony_boucle_condition', 1),
 (12, 4, 2, 'Symfony 5 - Base de donnée première parti', '<p>Bonjour &agrave; tous aujourd&#39;hui on va attaquer la partie base de donn&eacute;e ce ci est la premi&egrave;re parti. Site web : https://dev-crown.com/ Soutenir la chaine : https://utip.io/devcrown</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/bCS77rG4DZ4\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-19 19:51:37', '2020-03-05 10:00:00', 'symfony-5-base-de-donnee-premiere-parti', 'symfony5bdd1-5ef9c508cfa0f.png', 'symfony_bdd_first_part', 1),
-(13, 4, 2, 'Symfony 5 - Formulaire et base de donnée', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment utiliser les formulaires avec doctrine !</p>\r\n\r\n<p>Site web : <a href=\"https://dev-crown.com/\" target=\"_blank\">https://dev-crown.com/ </a></p>\r\n\r\n<p>Soutenir la cha&icirc;ne : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/PZJhSqPe5UE\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:06:31', '2020-03-13 10:00:00', 'symfony-5-formulaire-et-base-de-donnee', 'sf5bddform-5ef9c51905dc4.jpeg', 'symfony_formulaire_bdd.mp4', 2),
+(13, 4, 2, 'Symfony 5 - Formulaire et base de donnée', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment utiliser les formulaires avec doctrine !</p>\r\n\r\n<p>Site web : <a href=\"https://dev-crown.com/\" target=\"_blank\">https://dev-crown.com/ </a></p>\r\n\r\n<p>Soutenir la cha&icirc;ne : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/PZJhSqPe5UE\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:06:31', '2020-03-13 10:00:00', 'symfony-5-formulaire-et-base-de-donnee', 'sf5bddform-5f7e0a8a8b55c.jpeg', 'symfony_formulaire_bdd.mp4', 2),
 (14, 4, 2, 'Symfony 5 - Doctrine afficher les articles', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment afficher les articles de notre blog Site web : https://dev-crown.com/ Soutenir la chaine : https://utip.io/devcrown</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/cq-7VCqfNK4\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:14:08', '2020-03-14 10:00:00', 'symfony-5-doctrine-afficher-les-articles', 'symfony5showarticle-5ef9c5261c252.png', 'symfony_doctrine_afficher_articles.mp4', 2),
-(15, 4, 2, 'Symfony 5 - Edition d\'un article', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment &eacute;diter un article</p>\r\n\r\n<p>Site web : <a href=\"https://dev-crown.com/\">https://dev-crown.com/</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/rvPWmfpCvps\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:15:44', '2020-03-15 10:00:00', 'symfony-5-edition-d-un-article', 'sf5edit-5ef9c537b3db3.jpeg', 'symfony_editer_article.mp4', 2),
+(15, 4, 2, 'Symfony 5 - Edition d\'un article', '<p>Bonjour &agrave; tous dans cette vid&eacute;o nous allons voir comment &eacute;diter un article</p>\r\n\r\n<p>Site web : <a href=\"https://dev-crown.com/\">https://dev-crown.com/</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/rvPWmfpCvps\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:15:44', '2020-03-15 10:00:00', 'symfony-5-edition-d-un-article', 'sf5edit-5f7e0afb38819.jpeg', 'symfony_editer_article.mp4', 2),
 (16, NULL, 3, 'Présentation de la chaîne (Tutoriel sur le développement web)', '<p>Bonjour tout le monde et bienvenue sur ma cha&icirc;ne, aujourd&#39;hui je vous pr&eacute;sente un peu le bute de ma cha&icirc;ne youtube , bon visionnage et &agrave; bient&ocirc;t site web : https://dev-crown.com/ (ouvrira tr&egrave;s proochainement) Soutenir la cha&icirc;ne : https://utip.io/devcrown</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/SET7C-eG0ps\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:20:32', '2020-02-22 10:00:00', 'presentation-de-la-chaine-tutoriel-sur-le-developpement-web', 'skullwithcrown29686141-5ef9c42c10702.png', 'presentation_chaine_youtube.ogv', 1),
 (17, 6, 4, 'Installer wordpress en local', '<p>Bonjour tout le monde aujourd&#39;hui je vais vous montr&eacute; comment installer wordpress sur wamp en localhost wordpress: https://fr.wordpress.org/telechargement/ lien wamp: http://www.wampserver.com/ mamp: https://www.mamp.info/en/ xampp: https://www.apachefriends.org/fr/index.html n&#39;h&eacute;sitez pas a me demander de l&#39;aide en commentaire je vous r&eacute;pond tr&egrave;s rapidement ! https://dev-crown.com/</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/bcAPFVBXG4g\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:33:22', '2018-02-21 10:00:00', 'installer-wordpress-en-local', 'wordpress-5ef9c3ef51558.gif', 'installer_wordpress_local.mp4', 2),
 (18, NULL, 3, 'Présentation Eprojet.fr', '<p>Salut tout le monde c&#39;est crownbackend aujourd&#39;hui je vais vous pr&eacute;senter un petit site sympa qui vous permet de d&eacute;buter la programmation web et d&#39;apprendre les fondamentaux https://www.eprojet.fr/cours/index.php site web https://dev-crown.com/</p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/x8IoKcXnmGs\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-03-20 19:36:11', '2018-02-15 10:00:00', 'presentation-eprojet-fr', 'eprojet-5ef9c3d32f939.png', 'presentation_eprojet_fr.mp4', 2),
@@ -67,14 +67,17 @@ INSERT INTO `video` (`id`, `technology_id`, `playliste_id`, `title`, `descriptio
 (21, 4, 2, 'Symfony 5 - Supprimer un article', '<p>Bonjour, dans cette vid&eacute;o nous allons voir comment faire pour supprimer un article, bonne vid&eacute;o !</p>\r\n\r\n<p>github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\">https://github.com/crownbackend/dev-crown-symfony</a></p>\r\n\r\n<p>soutenir la cha&icirc;ne : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/KulD-DxruQc\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-04-15 20:33:10', '2020-04-13 10:00:00', 'symfony-5-supprimer-un-article', 'symfony5delete-5ef9c542cae57.png', 'symfony_supprimer_article.mp4', 2),
 (22, 4, 2, 'Symfony 5 - Afficher un article (détail de l\'article)', '<p>Bonjour tout le monde aujourd&#39;hui dans cette vid&eacute;o, nous allons voir comment afficher un seul article et afficher tout les d&eacute;tails de l&#39;article en question bonne vid&eacute;o !</p>\r\n\r\n<p>Github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\">https://github.com/crownbackend/dev-crown-symfony</a><a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\"> </a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/QPAVumwR9s8\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-04-15 20:41:32', '2020-04-14 10:00:00', 'symfony-5-afficher-un-article-detail-de-l-article', 'symfony5showarticle-5ef9c54d8f257.png', 'symfony_afficher_article.mp4', 2),
 (23, 4, 2, 'Symfony 5 - Mettre à jour notre application', '<p>Bonjour tout le monde aujourd&#39;hui dans cette vid&eacute;o nous allons voir comment faire pour mettre &agrave; jour notre application symfony !</p>\r\n\r\n<p>Oublier pas de corriger les d&eacute;pr&eacute;ciations et bug avant de mettre &agrave; jours !</p>\r\n\r\n<p>Github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\">https://github.com/crownbackend/dev-crown-symfony</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/DXIEb-qUxvs\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-04-15 20:59:10', '2020-04-16 10:00:00', 'symfony-5-mettre-a-jour-notre-application', 'symfony5updated-5ef9c5611c2c7.png', 'symfony_mettre_a_jours_application.mp4', 2),
-(24, NULL, 3, 'Github - Repository dev-crown', '<p>Bonjour tout le monde petit vid&eacute;o pour vous informez, chaque projet de vid&eacute;o aura son propre github donc je vous met le lien de mon github et sur chaque vid&eacute;o il y aura le gtihub du projet en question bonne vid&eacute;o !</p>\r\n\r\n<p>Github : <a href=\"https://github.com/crownbackend\" target=\"_blank\">https://github.com/crownbackend</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/N21_9fcBbKw\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-04-15 21:03:30', '2020-04-16 10:00:00', 'github-repository-dev-crown', 'basedeconnaissancesgithub1-5ef9c558950ca.png', 'github_repository.mp4', 2);
+(24, NULL, 3, 'Github - Repository dev-crown', '<p>Bonjour tout le monde petit vid&eacute;o pour vous informez, chaque projet de vid&eacute;o aura son propre github donc je vous met le lien de mon github et sur chaque vid&eacute;o il y aura le gtihub du projet en question bonne vid&eacute;o !</p>\r\n\r\n<p>Github : <a href=\"https://github.com/crownbackend\" target=\"_blank\">https://github.com/crownbackend</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/N21_9fcBbKw\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-04-15 21:03:30', '2020-04-16 10:00:00', 'github-repository-dev-crown', 'basedeconnaissancesgithub1-5ef9c558950ca.png', 'github_repository.mp4', 2),
+(26, 4, 2, 'Symfony 5 - MYSQL WORKBENCH Schématiser notre base de donnée', '<p>Bonjour, apr&egrave;s une petite absence de ma part ! on reprend les vid&eacute;os ! dans cette vid&eacute;o on va voir comment sch&eacute;matiser notre base de donn&eacute;e gr&acirc;ce au logiciel MySQL Workbench. Bonne vid&eacute;o !</p>\r\n\r\n<p>MySQL Workbench : <a href=\"https://dev.mysql.com/downloads/workbench/\" target=\"_blank\">https://dev.mysql.com/downloads/workbench/</a></p>\r\n\r\n<p>Github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\">https://github.com/crownbackend/dev-crown-symfony</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/u3Isux3aecA\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-10-07 20:08:43', '2020-09-29 10:00:00', 'symfony-5-mysql-workbench-schematiser-notre-base-de-donnee', 'sql1024x576-5f7e042c1d21b.jpeg', 'symfony_mysql_workbench.mp4', 2),
+(27, 4, 2, 'Symfony 5 - Création de nos entités', '<p>Bonjour, dans cette vid&eacute;o nous allons cr&eacute;er les entit&eacute;s de notre blog. Bonne vid&eacute;o !</p>\r\n\r\n<p>Github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\">https://github.com/crownbackend/dev-crown-symfony</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/qIhbFloxQ1A\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-10-07 20:12:27', '2020-09-30 10:00:00', 'symfony-5-creation-de-nos-entites', 'sfentitycreate-5f7e050bcdee9.jpeg', 'symfony_create_entity.mp4', 2),
+(28, 4, 2, 'Symfony 5 - Intégration de Template html css js', '<p>Bonjour &agrave; tous, dans cette vid&eacute;o nous allons voir comment int&eacute;grer un Template sur Symfony pour notre blog !</p>\r\n\r\n<p>Github du projet : <a href=\"https://github.com/crownbackend/dev-crown-symfony\" target=\"_blank\">https://github.com/crownbackend/dev-crown-symfony</a></p>\r\n\r\n<p>Soutenir la chaine : <a href=\"https://utip.io/devcrown\" target=\"_blank\">https://utip.io/devcrown</a></p>', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/v-oDlosfdPA\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '2020-10-07 20:24:19', '2020-10-02 10:00:00', 'symfony-5-integration-de-template-html-css-js', 'symfony5integratetmp-5f7e07d338058.jpeg', 'symfony_integrate_template.mp4', 2);
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `video`
+-- Indexes for table `video`
 --
 ALTER TABLE `video`
   ADD PRIMARY KEY (`id`),
@@ -82,21 +85,21 @@ ALTER TABLE `video`
   ADD KEY `IDX_7CC7DA2CEA02C715` (`playliste_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `video`
+-- AUTO_INCREMENT for table `video`
 --
 ALTER TABLE `video`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `video`
+-- Constraints for table `video`
 --
 ALTER TABLE `video`
   ADD CONSTRAINT `FK_7CC7DA2C4235D463` FOREIGN KEY (`technology_id`) REFERENCES `technology` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,

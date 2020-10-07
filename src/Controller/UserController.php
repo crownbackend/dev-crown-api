@@ -165,4 +165,27 @@ class UserController extends AbstractController
             return $this->json(["error" => 0], 400);
         }
     }
+
+    /**
+     * @Route("/profile/delete/account/{id}", name="delete_account", methods={"DELETE"})
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
+     */
+    public function deleteAccount(Request $request, $id): JsonResponse
+    {
+        if($request->headers->get('authorization')) {
+            $tokenValid = $this->JWTEncoder->decode($request->headers->get('authorization'));
+            if ($tokenValid) {
+                $em = $this->getDoctrine()->getManager();
+                $user = $this->userRepository->findOneBy(["id" => $id]);
+                $em->remove($user);
+                $em->flush();
+                return $this->json(["success" => 1], 200);
+            }
+        } else {
+            return $this->json(["error" => 0], 400);
+        }
+    }
 }

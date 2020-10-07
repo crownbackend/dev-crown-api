@@ -110,12 +110,12 @@ class User implements UserInterface
     private $avatar;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentVideo", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentVideo", mappedBy="user", cascade={"remove"})
      */
     private $commentsVideo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\CommentArticle", mappedBy="user", cascade={"remove"})
      */
     private $commentsArticle;
 
@@ -130,22 +130,22 @@ class User implements UserInterface
     private $responses;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Video::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=Video::class, mappedBy="users", cascade={"remove"})
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Topic::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Topic::class, mappedBy="user", cascade={"remove"})
      */
     private $topicsUsers;
 
     /**
-     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="user", cascade={"remove"})
      */
     private $responsesUsers;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="user", cascade={"remove"})
      */
     private $images;
 
