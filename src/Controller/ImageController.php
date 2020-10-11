@@ -57,7 +57,7 @@ class ImageController extends AbstractController
             $tokenValid = $JWTEncoder->decode($request->headers->get('authorization'));
             if($tokenValid) {
                 if(count($request->files->get('files')) > 5) {
-                    return $this->json(["errorCountFile" => 1]);
+                    return $this->json(["errorCountFile" => 1], 400);
                 } else {
                     $em = $this->getDoctrine()->getManager();
                     $user = $this->userRepository->findOneBy(["id" => $request->request->get('id')]);

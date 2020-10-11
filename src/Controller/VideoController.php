@@ -62,7 +62,6 @@ class VideoController extends AbstractController
     public function lastVideos(VideoRepository $videoRepository, Request $request,
                                JWTEncoderInterface $JWTEncoder, UserRepository $userRepository): JsonResponse
     {
-
         return $this->videosFavored($request, $JWTEncoder, $userRepository, $videoRepository->findByLastVideos());
     }
 
