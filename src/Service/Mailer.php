@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Mailer extends AbstractController
 {
@@ -33,7 +34,11 @@ class Mailer extends AbstractController
                 'text/html'
             );
 
-        return $this->mailer->send($message);
+        try {
+            return $this->mailer->send($message);
+        } catch (\Swift_TransportException $te) {
+            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
+        }
     }
 
     public function sendMailResponse($subject, $email, $username, $subjectForum, $content, $id, $slug)
@@ -55,6 +60,23 @@ class Mailer extends AbstractController
                 'text/html'
             );
 
-        return $this->mailer->send($message);
+        try {
+            return $this->mailer->send($message);
+        } catch (\Swift_TransportException $te) {
+            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
+        }
+    }
+
+    public function contact($email, $name, $content)
+    {
+        $message = (new \Swift_Message("Message de : ". $name))
+            ->setFrom($email)
+            ->setTo($this->getParameter("email_contact"))
+            ->setBody($content);
+        try {
+            return $this->mailer->send($message);
+        } catch (\Swift_TransportException $te) {
+            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
+        }
     }
 }

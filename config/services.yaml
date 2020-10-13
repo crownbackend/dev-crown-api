@@ -11,6 +11,7 @@ parameters:
     avatar_directory: '%kernel.project_dir%/public/images/avatars'
     topic_directory: '%kernel.project_dir%/public/images/topics'
     host_front: '%env(HOST_FRONT)%'
+    email_contact: '%env(EMAIL_CONTACT)%'
 
 services:
     # default configuration for services in *this* file

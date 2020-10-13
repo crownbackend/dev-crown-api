@@ -43,14 +43,11 @@ class ImageController extends AbstractController
     /**
      * @Route("/images/upload", name="upload_images", methods={"POST"})
      * @param Request $request
-     * @param FileUploader $fileUploader
-     * @param UserRepository $userRepository
      * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
      * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException
      */
-    public function uploadImages(Request $request, FileUploader $fileUploader,
-                                 JWTEncoderInterface $JWTEncoder): JsonResponse
+    public function uploadImages(Request $request, JWTEncoderInterface $JWTEncoder): JsonResponse
     {
         $errorSizeFile = [];
         if($request->headers->get("authorization")) {
