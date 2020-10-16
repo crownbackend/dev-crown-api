@@ -2,81 +2,84 @@
 
 namespace App\Service;
 
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class Mailer extends AbstractController
 {
+
+
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
     }
 
     public function sendMail($subject, $email, $username, $token, $template)
     {
-        $message = (new \Swift_Message($subject))
-            ->setFrom("registration@dev-crown.com")
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'emails/'.$template.'.html.twig',
-                    [
-                        'username' => $username,
-                        "token" => $token
-                    ]
-                ),
-                'text/html'
-            );
+        $email = (new TemplatedEmail())
+            ->from('registration@dev-crown.com')
+            ->to(new Address($email))
+            ->subject($subject)
 
-        try {
-            return $this->mailer->send($message);
-        } catch (\Swift_TransportException $te) {
-            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
-        }
+            // path of the Twig template to render
+            ->htmlTemplate('emails/'.$template.'.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'username' => $username,
+                'token' => $token,
+            ]);
+
+        $this->mailer->send($email);
     }
 
     public function sendMailResponse($subject, $email, $username, $subjectForum, $content, $id, $slug)
     {
-        $message = (new \Swift_Message($subject))
-            ->setFrom("forum@dev-crown.com")
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'emails/response.html.twig',
-                    [
-                        'username' => $username,
-                        "subjectForum" => $subjectForum,
-                        "content" => $content,
-                        "id" => $id,
-                        "slug" => $slug
-                    ]
-                ),
-                'text/html'
-            );
 
-        try {
-            return $this->mailer->send($message);
-        } catch (\Swift_TransportException $te) {
-            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
-        }
+        $email = (new TemplatedEmail())
+            ->from('forum@dev-crown.com')
+            ->to(new Address($email))
+            ->subject($subject)
+
+            // path of the Twig template to render
+            ->htmlTemplate('emails/response.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'username' => $username,
+                "subjectForum" => $subjectForum,
+                "content" => $content,
+                "id" => $id,
+                "slug" => $slug
+            ]);
+
+        $this->mailer->send($email);
     }
 
+    /**
+     * @param $email
+     * @param $name
+     * @param $content
+     * @return JsonResponse|void
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
     public function contact($email, $name, $content)
     {
-        $message = (new \Swift_Message("Message de : ". $name))
-            ->setFrom($email)
-            ->setTo($this->getParameter("email_contact"))
-            ->setBody($content);
-        try {
-            return $this->mailer->send($message);
-        } catch (\Swift_TransportException $te) {
-            return new JsonResponse("Erreur lors de l'envoie du mail", 400);
-        }
+        $email = (new Email())
+            ->from($email)
+            ->to($this->getParameter("email_contact"))
+            ->subject('Message de : '. $name)
+            ->text($content);
+
+        $this->mailer->send($email);
     }
 }
