@@ -83,8 +83,8 @@ class TopicController extends AbstractController
      */
     public function topicsShowMore($date, $id): JsonResponse
     {
-        $d = new \DateTime($date);
-        return $this->json(["topics" => $this->topicRepository->findByLoadMoreTopics($d->format("Y-m-d H:i:s"),
+        $dateCompare = new \DateTime($date);
+        return $this->json(["topics" => $this->topicRepository->findByLoadMoreTopics($dateCompare->format("Y-m-d H:i:s"),
             $id)], 200, [], ["groups" => "topicsMore"]);
     }
 

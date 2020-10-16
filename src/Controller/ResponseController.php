@@ -149,7 +149,7 @@ class ResponseController extends AbstractController
     }
 
     /**
-     * @Route("/response/answer/{id}")
+     * @Route("/response/answer/{id}", name="good_answer", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException

@@ -63,7 +63,7 @@ class TechnologyController extends AbstractController
     }
 
     /**
-     * @Route("/technology/videos/load/more/{id}", name="load_more_video_technology")
+     * @Route("/technology/videos/load/more/{id}", name="load_more_video_technology", methods={"POST"})
      * @param $id
      * @param Request $request
      * @param VideoRepository $videoRepository
