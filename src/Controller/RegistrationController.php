@@ -94,7 +94,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/forgot/password", name="send_new_password")
+     * @Route("/forgot/password", name="send_new_password", methods={"POST"})
      * @param Request $request
      * @param Mailer $mailer
      * @param UserRepository $userRepository
