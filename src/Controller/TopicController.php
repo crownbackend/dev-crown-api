@@ -136,37 +136,37 @@ class TopicController extends AbstractController
         if($request->headers->get('authorization')) {
             $tokenValid = $this->JWTEncoder->decode($request->headers->get('authorization'));
             if ($tokenValid) {
-                $close = $request->request->get("close");
-                $resolve = $request->request->get("resolve");
-                $em = $this->getDoctrine()->getManager();
-                $forum = $this->forumRepository->findOneBy(["id" => $request->request->get("forum")]);
-                $topic = $this->topicRepository->findOneBy(["id" => $id]);
-                $topic->setTitle($request->request->get("title"));
-                $topic->setDescription($request->request->get("description"));
-                if($close == "true") {
-                    $topic->setClose(true);
-                } else {
-                    $topic->setClose(false);
+                    $close = $request->request->get("close");
+                    $resolve = $request->request->get("resolve");
+                    $em = $this->getDoctrine()->getManager();
+                    $forum = $this->forumRepository->findOneBy(["id" => $request->request->get("forum")]);
+                    $topic = $this->topicRepository->findOneBy(["id" => $id]);
+                    $topic->setTitle($request->request->get("title"));
+                    $topic->setDescription($request->request->get("description"));
+                    if($close == "true") {
+                        $topic->setClose(true);
+                    } else {
+                        $topic->setClose(false);
+                    }
+                    if($resolve == "true") {
+                        $topic->setResolve(true);
+                    } else {
+                        $topic->setResolve(false);
+                    }
+                    $topic->setForum($forum);
+                    $topic->setUpdatedAt(new \DateTime());
+                    $errors = $this->validator->validate($topic);
+                    if (count($errors) > 0) {
+                        $errorsString = (string) $errors;
+                        return $this->json(["error" => $errorsString]);
+                    }
+                    $em->persist($topic);
+                    $em->flush();
+                    return $this->json([
+                        "success" => 1, "topicId" => $topic->getId(),
+                        "slug" => $topic->getSlug()
+                    ]);
                 }
-                if($resolve == "true") {
-                    $topic->setResolve(true);
-                } else {
-                    $topic->setResolve(false);
-                }
-                $topic->setForum($forum);
-                $topic->setUpdatedAt(new \DateTime());
-                $errors = $this->validator->validate($topic);
-                if (count($errors) > 0) {
-                    $errorsString = (string) $errors;
-                    return $this->json(["error" => $errorsString]);
-                }
-                $em->persist($topic);
-                $em->flush();
-                return $this->json([
-                    "success" => 1, "topicId" => $topic->getId(),
-                    "slug" => $topic->getSlug()
-                ]);
-            }
         } else {
             return $this->json( ["error" => 1], 400);
         }
