@@ -21,7 +21,7 @@ class Forum
     private $id;
 
     /**
-     * @Groups({"lastTopics", "forums", "forum", "forumList", "search", "profileTopics"})
+     * @Groups({"lastTopics", "forums", "forum", "forumList", "search", "profileTopics", "forumStats"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -33,7 +33,7 @@ class Forum
     private $imageFile;
 
     /**
-     * @Groups({"forums"})
+     * @Groups({"forums", "forumStats"})
      * @ORM\OneToMany(targetEntity="App\Entity\Topic", mappedBy="forum", cascade={"persist", "remove"})
      */
     private $topics;
