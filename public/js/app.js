@@ -57,27 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-var forums = []
-var topics = []
-
-
 $.ajax({
     url: '/stats/forums',
     type: 'GET',
     dataType: 'json',
     success: function (data) {
-         $.each(data, function (i, k) {
-             forums.push(k.name)
-             topics.push(k.topics.length)
-         })
+
         var ctx = document.getElementById("myPieChart");
         var myPieChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: forums,
+                labels: data['label'],
                 datasets: [{
-                    data:topics,
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    data: data['numberTopic'],
+                    backgroundColor: data['color'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                 }],
             },
@@ -88,4 +81,3 @@ $.ajax({
         alert("Erreru serveur !")
     }
 })
-
