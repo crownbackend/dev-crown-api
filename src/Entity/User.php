@@ -130,7 +130,7 @@ class User implements UserInterface
     private $responses;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Video::class, mappedBy="users", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity=Video::class, mappedBy="users")
      */
     private $videos;
 
